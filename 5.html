@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Limas Segi Enam</title>
+  <style>
+    body {
+      background: #f4f4f4; /* Soft light background */
+      color: #333; /* Dark text for readability */
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+      min-height: 100vh;
+      margin: 0;
+      padding: 40px 20px;
+    }
+    .container {
+      max-width: 600px;
+      background: #ffffff; /* White background for the container */
+      border-radius: 12px;
+      padding: 30px 40px;
+      box-shadow: 0 0 20px rgba(0, 0, 0, 0.1); /* Soft shadow */
+    }
+    h1 {
+      color: #00796b; /* Soft teal color */
+      margin-bottom: 20px;
+      text-align: center;
+    }
+    h2 {
+      color: #004d40; /* Darker teal for subheadings */
+      margin-top: 30px;
+      margin-bottom: 10px;
+    }
+    p {
+      line-height: 1.6;
+      font-size: 1.1rem;
+      margin-bottom: 15px;
+    }
+    .formula {
+      background: #e0f2f1; /* Light teal background for formulas */
+      border-left: 6px solid #00796b; /* Teal border */
+      padding: 12px 16px;
+      margin-bottom: 20px;
+      font-family: 'Courier New', Courier, monospace;
+      font-size: 1.25rem;
+      color: #333; /* Dark text for formulas */
+      user-select: all;
+      border-radius: 6px;
+    }
+    .note {
+      font-size: 0.9rem;
+      color: #666; /* Soft gray for notes */
+      font-style: italic;
+    }
+    input, button {
+      margin: 8px 0;
+      padding: 6px;
+      width: 100%;
+    }
+    .hasil {
+      margin-top: 20px;
+      background: #f0f0f0;
+      padding: 10px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Rumus Limas Segi Enam</h1>
+    <p>Limas segi enam adalah bangun ruang dengan alas berbentuk segi enam dan sebuah titik puncak (apex) di atas alas tersebut.</p>
+    
+    <h2>Input Data</h2>
+    <label>Sisi alas segi enam (s):</label>
+    <input type="number" id="sisi" placeholder="Masukkan panjang sisi alas (cm)" required>
+
+    <label>Tinggi limas (t):</label>
+    <input type="number" id="tinggiLimas" placeholder="Masukkan tinggi limas (cm)" required>
+
+    <label>Tinggi segitiga sisi tegak (opsional):</label>
+    <input type="number" id="tinggiSegitiga" placeholder="Untuk hitung luas permukaan (cm)">
+
+    <button onclick="hitungLimas()">Hitung</button>
+
+    <div class="hasil" id="output"></div>
+
+    <h2>Rumus</h2>
+    <h3>Rumus Luas Alas (Segi Enam Beraturan)</h3>
+    <p>Dengan sisi alas = <strong>s</strong></p>
+    <div class="formula">Luas Alas = (3√3 / 2) × s²</div>
+    
+    <h3>Rumus Luas Selimut</h3>
+    <p>Luas selimut adalah luas semua bidang segitiga di sisi limas yang menghubungkan tiap sisi alas ke titik puncak.</p>
+    <p>Dengan <strong>s</strong> = panjang sisi alas, dan <strong>t</strong> = tinggi sisi (garis dari titik puncak ke sisi alas)</p>
+    <div class="formula">Luas Selimut = 6 × (½ × s × t) = 3 × s × t</div>
+    
+    <h3>Rumus Luas Permukaan</h3>
+    <div class="formula">Luas Permukaan = Luas Alas + Luas Selimut = (3√3 / 2) × s² + 3 × s × t</div>
+  
+    <h3>Rumus Volume</h3>
+    <p>Volume limas diperoleh dari sepertiga luas alas dikalikan tinggi limas <strong>h</strong> (jarak tegak lurus dari puncak ke alas)</p>
+    <div class="formula">Volume = (1/3) × Luas Alas × h = (1/3) × (3√3 / 2) × s² × h = (√3 / 2) × s² × h</div>
+  
+    <p class="note">Keterangan:<br>
+      s = panjang sisi alas segi enam<br>
+      t = tinggi sisi segitiga sisi limas<br>
+      h = tinggi limas (jarak tegak lurus dari puncak ke alas)</p>
+  </div>
+
+  <script>
+    function hitungLimas() {
+      const s = parseFloat(document.getElementById("sisi").value);
+      const t = parseFloat(document.getElementById("tinggiLimas").value);
+      const ts = parseFloat(document.getElementById("tinggiSegitiga").value);
+
+      if (isNaN(s) || isNaN(t)) {
+        document.getElementById("output").innerHTML = "Harap masukkan nilai sisi dan tinggi limas dengan benar.";
+        return;
+      }
+
+      // Luas alas segi enam beraturan
+      const luasAlas = (3 * Math.sqrt(3) / 2) * Math.pow(s, 2);
+
+      // Volume limas
+      const volume = (1 / 3) * luasAlas * t;
+
+      let luasPermukaan = null;
+      if (!isNaN(ts)) {
+        const luasSegitiga = (1 / 2) * s * ts;
+        const luasSisiTegak = 6 * luasSegitiga;
+        luasPermukaan = luasAlas + luasSisiTegak;
+      }
+
+      // Output
+      let outputText = `
+        <strong>Hasil Perhitungan:</strong><br>
+        Luas Alas: ${luasAlas.toFixed(2)} cm²<br>
+        Volume Limas: ${volume.toFixed(2)} cm³<br>
+      `;
+
+      if (luasPermukaan !== null) {
+        outputText += `Luas Permukaan: ${luasPermukaan.toFixed(2)} cm²<br>`;
+      } else {
+        outputText += `Luas Permukaan: Masukkan tinggi segitiga sisi untuk menghitung.<br>`;
+      }
+
+      document.getElementById("output").innerHTML = outputText;
+    }
+  </script>
+</body>
+</html>

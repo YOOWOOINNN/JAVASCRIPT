@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <title>Segitiga Sama Kaki</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: #f9fafb;
+      color: #2c3e50;
+      max-width: 600px;
+      margin: auto;
+      padding: 20px;
+    }
+    h2 {
+      text-align: center;
+      color: #2980b9;
+      margin-bottom: 20px;
+    }
+    label {
+      font-weight: bold;
+      margin-top: 10px;
+    }
+    input {
+      margin: 10px 0;
+      padding: 10px;
+      width: 100%;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      font-size: 1rem;
+    }
+    button {
+      margin: 10px 0;
+      padding: 10px;
+      width: 100%;
+      background-color: #2980b9;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+    button:hover {
+      background-color: #1c5d8b;
+    }
+    .hasil {
+      background: #e1eaf5;
+      padding: 15px;
+      border-radius: 5px;
+      margin-top: 20px;
+      font-weight: bold;
+      text-align: center;
+    }
+  </style>
+</head>
+<body>
+  <h2>Segitiga Sama Kaki</h2>
+
+  <label>Alas segitiga (a) dalam cm:</label>
+  <input type="number" id="alas" placeholder="Masukkan panjang alas" required>
+
+  <label>Sisi miring segitiga (b) dalam cm:</label>
+  <input type="number" id="sisiMiring" placeholder="Masukkan panjang sisi miring" required>
+
+  <label>Tinggi segitiga alas (t segitiga):</label>
+  <input type="number" id="tinggiSegitiga" placeholder="Masukkan tinggi segitiga alas" required>
+
+  <label>Tinggi prisma (t prisma):</label>
+  <input type="number" id="tinggiPrisma" placeholder="Masukkan tinggi prisma" required>
+
+  <button onclick="hitung()">Hitung</button>
+
+  <div class="hasil" id="output"></div>
+
+  <script>
+    function hitung() {
+      const a = parseFloat(document.getElementById("alas").value);
+      const b = parseFloat(document.getElementById("sisiMiring").value);
+      const tSeg = parseFloat(document.getElementById("tinggiSegitiga").value);
+      const tPrisma = parseFloat(document.getElementById("tinggiPrisma").value);
+
+      if ([a, b, tSeg, tPrisma].some(isNaN)) {
+        document.getElementById("output").innerHTML = "Mohon isi semua nilai dengan benar.";
+        return;
+      }
+
+      const luasAlas = 0.5 * a * tSeg;
+      const kelilingAlas = a + 2 * b;
+      const volume = luasAlas * tPrisma;
+      const luasPermukaan = 2 * luasAlas + kelilingAlas * tPrisma;
+
+      document.getElementById("output").innerHTML = `
+        <strong>Hasil:</strong><br>
+        Luas Alas: ${luasAlas.toFixed(2)} cm²<br>
+        Keliling Alas: ${kelilingAlas.toFixed(2)} cm<br>
+        Volume: ${volume.toFixed(2)} cm³<br>
+        Luas Permukaan: ${luasPermukaan.toFixed(2)} cm²
+      `;
+    }
+  </script>
+</body>
+</html>

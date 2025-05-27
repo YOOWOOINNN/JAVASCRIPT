@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <title>Belah Ketupat</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: #f9fafb;
+      color: #2c3e50;
+      max-width: 600px;
+      margin: auto;
+      padding: 20px;
+    }
+    h2 {
+      text-align: center;
+      color: #2980b9;
+      margin-bottom: 20px;
+    }
+    label {
+      font-weight: bold;
+      margin-top: 10px;
+    }
+    input {
+      margin: 10px 0;
+      padding: 10px;
+      width: 100%;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      font-size: 1rem;
+    }
+    button {
+      margin: 10px 0;
+      padding: 10px;
+      width: 100%;
+      background-color: #2980b9;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+    button:hover {
+      background-color: #1c5d8b;
+    }
+    .hasil {
+      background: #e1eaf5;
+      padding: 15px;
+      border-radius: 5px;
+      margin-top: 20px;
+      font-weight: bold;
+      text-align: center;
+    }
+  </style>
+</head>
+<body>
+  <h2>Belah Ketupat</h2>
+
+  <label>Diagonal 1 (d₁) dalam cm:</label>
+  <input type="number" id="d1" placeholder="Masukkan diagonal 1" required>
+
+  <label>Diagonal 2 (d₂) dalam cm:</label>
+  <input type="number" id="d2" placeholder="Masukkan diagonal 2" required>
+
+  <label>Tinggi prisma (t) dalam cm:</label>
+  <input type="number" id="t" placeholder="Masukkan tinggi prisma" required>
+
+  <label>Panjang sisi belah ketupat (opsional, untuk luas permukaan):</label>
+  <input type="number" id="sisi" placeholder="Masukkan sisi (s)">
+
+  <button onclick="hitungPrisma()">Hitung</button>
+
+  <div class="hasil" id="output"></div>
+
+  <script>
+    function hitungPrisma() {
+      const d1 = parseFloat(document.getElementById("d1").value);
+      const d2 = parseFloat(document.getElementById("d2").value);
+      const t = parseFloat(document.getElementById("t").value);
+      const s = parseFloat(document.getElementById("sisi").value);
+
+      if (isNaN(d1) || isNaN(d2) || isNaN(t)) {
+        document.getElementById("output").innerHTML = "Mohon isi nilai diagonal dan tinggi prisma dengan benar.";
+        return;
+      }
+
+      const luasAlas = 0.5 * d1 * d2;
+      const volume = luasAlas * t;
+
+      const output = `
+        <strong>Hasil Perhitungan:</strong><br>
+        Luas Alas: ${luasAlas.toFixed(2)} cm²<br>
+        Volume: ${volume.toFixed(2)} cm³<br>
+      `;
+
+      if (!isNaN(s)) {
+        const luasPermukaan = 2 * luasAlas + (4 * s * t);
+        output += `Luas Permukaan: ${luasPermukaan.toFixed(2)} cm²`;
+      } else {
+        output += `Luas Permukaan: (isi panjang sisi untuk menghitung)`;
+      }
+
+      document.getElementById("output").innerHTML = output;
+    }
+  </script>
+</body>
+</html>

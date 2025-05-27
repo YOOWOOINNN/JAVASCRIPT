@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Rumus Bangun Ruang Balok</title>
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+        body {
+            background: #f7fafd;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            color: #222;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            padding: 40px 20px;
+            min-height: 100vh;
+            margin: 0;
+        }
+        .container {
+            background: white;
+            max-width: 600px;
+            padding: 30px 40px;
+            border-radius: 14px;
+            box-shadow: 0 12px 30px rgba(0,0,0,0.12);
+        }
+        h1 {
+            color: #1177ee;
+            text-align: center;
+            margin-bottom: 15px;
+        }
+        p.intro {
+            text-align: center;
+            font-size: 1.1rem;
+            color: #555;
+            margin-bottom: 40px;
+        }
+        .formula {
+            background: #def0ff;
+            border: 2px solid #1177ee;
+            border-radius: 12px;
+            padding: 18px 30px;
+            margin-bottom: 25px;
+            font-weight: 600;
+            font-size: 1.3rem;
+            color: #0a3d8f;
+            text-align: center;
+            user-select: all;
+        }
+        .formula sup {
+            font-size: 0.7em;
+        }
+        @media (max-width: 480px) {
+            .container {
+                padding: 20px;
+                max-width: 100%;
+            }
+        }
+        label {
+            display: block;
+            margin-top: 10px;
+        }
+        input {
+            margin-top: 5px;
+            padding: 8px;
+            width: 100%;
+            box-sizing: border-box;
+            font-size: 1rem;
+        }
+        button {
+            margin-top: 15px;
+            padding: 10px 15px;
+            background-color: #1177ee;
+            color: white;
+            border: none;
+            cursor: pointer;
+            font-size: 1rem;
+            border-radius: 6px;
+            width: 100%;
+        }
+        button:hover {
+            background-color: #0a3d8f;
+        }
+        .output {
+            margin-top: 20px;
+            padding: 15px;
+            background-color: #e6f7ff;
+            border: 1px solid #91d5ff;
+            font-weight: 600;
+            font-size: 1.1rem;
+            color: #0a3d8f;
+        }
+    </style>
+</head>
+<body>
+    <div class="container" role="main">
+        <h1>Rumus Bangun Ruang Balok</h1>
+        <p class="intro">
+            Berikut adalah rumus penting pada bangun ruang balok dengan panjang <strong>p</strong>, lebar <strong>l</strong>, dan tinggi <strong>t</strong>:
+        </p>
+
+        <div class="formula" tabindex="0" aria-label="Rumus volume balok">
+            Volume = p × l × t<br />
+            <small>(Volume = panjang × lebar × tinggi)</small>
+        </div>
+
+        <div class="formula" tabindex="0" aria-label="Rumus luas permukaan balok">
+            Luas Permukaan = 2 × (p × l + p × t + l × t)<br />
+            <small>(Luas Permukaan = 2 × (panjang × lebar + panjang × tinggi + lebar × tinggi))</small>
+        </div>
+
+        <div class="formula" tabindex="0" aria-label="Rumus diagonal ruang balok">
+            Diagonal Ruang = √(p<sup>2</sup> + l<sup>2</sup> + t<sup>2</sup>)<br />
+            <small>(Diagonal Ruang = akar kuadrat dari (panjang kuadrat + lebar kuadrat + tinggi kuadrat))</small>
+        </div>
+
+        <h2>Kalkulator Balok</h2>
+        <label for="panjang">Panjang:</label>
+        <input type="number" id="panjang" placeholder="Masukkan panjang">
+
+        <label for="lebar">Lebar:</label>
+        <input type="number" id="lebar" placeholder="Masukkan lebar">
+
+        <label for="tinggi">Tinggi:</label>
+        <input type="number" id="tinggi" placeholder="Masukkan tinggi">
+
+        <button onclick="hitungBalok()">Hitung</button>
+
+        <div class="output" id="hasil"></div>
+
+        <script>
+            function hitungBalok() {
+                // Ambil nilai dari input
+                const panjang = parseFloat(document.getElementById('panjang').value);
+                const lebar = parseFloat(document.getElementById('lebar').value);
+                const tinggi = parseFloat(document.getElementById('tinggi').value);
+
+                // Validasi input
+                if (isNaN(panjang) || isNaN(lebar) || isNaN(tinggi)) {
+                    document.getElementById('hasil').innerHTML = "Mohon masukkan semua nilai dengan benar!";
+                    return;
+                }
+
+                // Hitung volume dan luas permukaan
+                const volume = panjang * lebar * tinggi;
+                const luasPermukaan = 2 * (panjang * lebar + panjang * tinggi + lebar * tinggi);
+
+                // Tampilkan hasil
+                document.getElementById('hasil').innerHTML = `
+                    <strong>Hasil Perhitungan:</strong><br>
+                    Volume: ${volume.toFixed(2)} satuan³<br>
+                    Luas Permukaan: ${luasPermukaan.toFixed(2)} satuan²
+                `;
+            }
+        </script>
+    </div>
+</body>
+</html>

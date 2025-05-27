@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Limas Segi Empat</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      padding: 20px;
+      max-width: 600px;
+      margin: auto;
+    }
+    input, button {
+      margin: 8px 0;
+      padding: 6px;
+      width: 100%;
+    }
+    .hasil {
+      margin-top: 20px;
+      background: #f8f8f8;
+      padding: 10px;
+      border: 1px solid #ccc;
+    }
+    .container {
+      background: #ffffff;
+      border-radius: 12px;
+      padding: 30px 40px;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+    }
+    h1 {
+      color: #34495e;
+      margin-bottom: 24px;
+      text-align: center;
+      font-weight: 700;
+    }
+    h2 {
+      color: #2980b9;
+      margin-top: 30px;
+      margin-bottom: 12px;
+      border-bottom: 2px solid #2980b9;
+      padding-bottom: 6px;
+      font-weight: 600;
+    }
+    p {
+      font-size: 1.1rem;
+      line-height: 1.6;
+      margin-bottom: 16px;
+    }
+    .formula {
+      background: #ecf0f1;
+      border-left: 6px solid #2980b9;
+      padding: 14px 20px;
+      margin-bottom: 20px;
+      font-family: 'Courier New', Courier, monospace;
+      font-size: 1.3rem;
+      color: #2c3e50;
+      border-radius: 6px;
+      user-select: all;
+      box-shadow: inset 0 0 10px #d0d7de;
+    }
+    .note {
+      font-style: italic;
+      font-size: 0.9rem;
+      color: #7f8c8d;
+      margin-top: 12px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Limas Segi Empat Beraturan</h1>
+
+    <label>Sisi alas persegi (s):</label>
+    <input type="number" id="sisi" placeholder="Masukkan panjang sisi alas (cm)" required>
+
+    <label>Tinggi limas (t):</label>
+    <input type="number" id="tinggiLimas" placeholder="Masukkan tinggi limas (cm)" required>
+
+    <label>Tinggi segitiga sisi tegak (opsional):</label>
+    <input type="number" id="tinggiSegitiga" placeholder="Untuk hitung luas permukaan (cm)">
+
+    <button onclick="hitungLimas()">Hitung</button>
+
+    <div class="hasil" id="output"></div>
+
+    <h2>Rumus Limas Segi Empat (Piramida Persegi)</h2>
+    <p>Limas segi empat adalah bangun ruang dengan alas berbentuk persegi dan sebuah titik puncak (apex) di atas alas tersebut.</p>
+
+    <h2>Rumus Luas Alas</h2>
+    <p>Dengan panjang sisi alas = <strong>s</strong></p>
+    <div class="formula">Luas Alas = s²</div>
+
+    <h2>Rumus Luas Selimut</h2>
+    <p>Luas selimut adalah luas semua bidang segitiga sisi limas yang menghubungkan sisi alas ke titik puncak.</p>
+    <p>Dengan <strong>s</strong> = panjang sisi alas dan <strong>t</strong> = tinggi sisi segitiga sisi limas</p>
+    <div class="formula">Luas Selimut = 4 × (½ × s × t) = 2 × s × t</div>
+
+    <h2>Rumus Luas Permukaan</h2>
+    <div class="formula">Luas Permukaan = Luas Alas + Luas Selimut = s² + 2 × s × t</div>
+
+    <h2>Rumus Volume</h2>
+    <p>Volume limas dihitung sebagai:</p>
+    <div class="formula">Volume = (1/3) × Luas Alas × h = (1/3) × s² × h</div>
+
+    <p class="note">
+      Keterangan:<br/>
+      s = panjang sisi alas persegi<br/>
+      t = tinggi sisi segitiga sisi limas<br/>
+      h = tinggi limas (jarak tegak lurus dari puncak ke alas)
+    </p>
+  </div>
+
+  <script>
+    function hitungLimas() {
+      const s = parseFloat(document.getElementById("sisi").value);
+      const t = parseFloat(document.getElementById("tinggiLimas").value);
+      const ts = parseFloat(document.getElementById("tinggiSegitiga").value);
+
+      if (isNaN(s) || isNaN(t)) {
+        document.getElementById("output").innerHTML = "Masukkan nilai sisi dan tinggi limas dengan benar.";
+        return;
+      }
+
+      // Luas alas (persegi)
+      const luasAlas = s * s;
+
+      // Volume limas
+      const volume = (1 / 3) * luasAlas * t;
+
+      // Luas permukaan
+      const luasPermukaan = null;
+      if (!isNaN(ts)) {
+        const luasSegitigaSisi = 0.5 * s * ts;
+        luasPermukaan = luasAlas + 4 * luasSegitigaSisi;
+      }
+
+      // Output
+      const outputText = `
+        <strong>Hasil Perhitungan:</strong><br>
+        Luas Alas: ${luasAlas.toFixed(2)} cm²<br>
+        Volume Limas: ${volume.toFixed(2)} cm³<br>
+      `;
+
+      if (luasPermukaan !== null) {
+        outputText += `Luas Permukaan: ${luasPermukaan.toFixed(2)} cm²<br>`;
+      } else {
+        outputText += `Luas Permukaan: Masukkan tinggi segitiga sisi untuk menghitung.<br>`;
+      }
+
+      document.getElementById("output").innerHTML = outputText;
+    }
+  </script>
+</body>
+</html>

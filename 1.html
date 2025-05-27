@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Rumus Bangun Ruang Kubus</title>
+<style>
+  /* Reset some */
+  * {
+    box-sizing: border-box;
+  }
+  body {
+    margin: 0;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: #f4f9ff;
+    color: #222;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    padding: 40px 20px;
+    min-height: 100vh;
+  }
+  .container {
+    background: white;
+    max-width: 600px;
+    padding: 30px 40px;
+    border-radius: 12px;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+  }
+  h1 {
+    color: #007acc;
+    margin-bottom: 10px;
+    text-align: center;
+  }
+  p {
+    font-size: 1.1rem;
+    margin-bottom: 30px;
+    text-align: center;
+    color: #555;
+  }
+  .formula {
+    background: #e6f0ff;
+    border: 2px solid #007acc;
+    border-radius: 10px;
+    padding: 15px 25px;
+    margin-bottom: 20px;
+    font-size: 1.2rem;
+    font-weight: 600;
+    color: #003d99;
+    text-align: center;
+    user-select: all;
+  }
+  .formula sup {
+    font-size: 0.7em;
+  }
+  /* Cube representation with CSS */
+  .cube-container {
+    margin: 30px auto 0 auto;
+    width: 120px;
+    height: 120px;
+    perspective: 400px;
+  }
+  .cube {
+    width: 100px;
+    height: 100px;
+    position: relative;
+    margin: 0 auto;
+    transform-style: preserve-3d;
+    animation: rotate 8s linear infinite;
+  }
+  .face {
+    position: absolute;
+    width: 100px;
+    height: 100px;
+    background: #007acccc;
+    border: 3px solid #005a99;
+    border-radius: 8px;
+    box-shadow: inset 0 0 15px #3399ffaa;
+  }
+  .face.front  { transform: translateZ(50px); }
+  .face.back   { transform: rotateY(180deg) translateZ(50px); }
+  .face.right  { transform: rotateY(90deg) translateZ(50px); }
+  .face.left   { transform: rotateY(-90deg) translateZ(50px); }
+  .face.top    { transform: rotateX(90deg) translateZ(50px); }
+  .face.bottom { transform: rotateX(-90deg) translateZ(50px); }
+
+  @keyframes rotate {
+    from { transform: rotateX(0deg) rotateY(0deg);}
+    to   { transform: rotateX(360deg) rotateY(360deg);}
+  }
+  footer {
+    margin-top: 50px;
+    font-size: 0.9rem;
+    color: #888;
+    text-align: center;
+  }
+  @media (max-width: 480px) {
+    .container {
+      padding: 20px;
+      max-width: 100%;
+    }
+  }
+</style>
+</head>
+<body>
+  <div class="container" role="main">
+    <h1>Rumus Bangun Ruang Kubus</h1>
+    <p>Berikut adalah rumus-rumus penting pada bangun ruang kubus dengan sisi <strong>s</strong>:</p>
+
+    <div class="formula" tabindex="0">
+      Volume = s<sup>3</sup> <br />
+      <small>(Volume = sisi x sisi x sisi)</small>
+    </div>
+
+    <div class="formula" tabindex="0">
+      Luas Permukaan = 6 × s<sup>2</sup> <br />
+      <small>(Luas Permukaan = 6 × sisi × sisi)</small>
+    </div>
+
+    <div class="formula" tabindex="0">
+      Panjang Diagonal Bidang = s√2 <br />
+      <small>(Diagonal bidang = sisi × akar 2)</small>
+    </div>
+
+    <div class="formula" tabindex="0">
+      Panjang Diagonal Ruang = s√3 <br />
+      <small>(Diagonal ruang = sisi × akar 3)</small>
+    </div>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        margin: 40px;
+      }
+      input, button {
+        margin: 10px 0;
+        padding: 10px;
+        font-size: 16px;
+      }
+      h3 {
+        margin-top: 20px;
+      }
+    </style>
+  </head>
+  <body>
+    <h2>Bangun Ruang: Kubus</h2>
+    <label for="sisi">Masukkan panjang sisi (cm):</label><br>
+    <input type="number" id="sisi" placeholder="Contoh: 5"><br>
+  
+    <button onclick="hitungKubus()">Hitung</button>
+  
+    <h3>Hasil:</h3>
+    <p id="volume"></p>
+    <p id="luasPermukaan"></p>
+  
+    <script>
+      function hitungKubus() {
+        const sisi = parseFloat(document.getElementById('sisi').value);
+        if (isNaN(sisi) || sisi <= 0) {
+          alert("Masukkan panjang sisi yang valid (angka positif).");
+          return;
+        }
+  
+        const volume = Math.pow(sisi, 3);
+        const luasPermukaan = 6 * Math.pow(sisi, 2);
+  
+        document.getElementById('volume').textContent = `Volume Kubus: ${volume.toFixed(2)} cm³`;
+        document.getElementById('luasPermukaan').textContent = `Luas Permukaan Kubus: ${luasPermukaan.toFixed(2)} cm²`;
+      }
+    </script>
+  </body>
+  </html>
+  
+    <div class="cube-container" aria-label="Animasi kubus berputar">
+      <div class="cube" aria-hidden="true">
+        <div class="face front"></div>
+        <div class="face back"></div>
+        <div class="face right"></div>
+        <div class="face left"></div>
+        <div class="face top"></div>
+        <div class="face bottom"></div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

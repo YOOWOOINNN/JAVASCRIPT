@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <title>Kerucut</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: #f9fafb;
+      color: #2c3e50;
+      max-width: 600px;
+      margin: auto;
+      padding: 20px;
+    }
+    h2 {
+      text-align: center;
+      color: #2980b9;
+      margin-bottom: 20px;
+    }
+    label {
+      font-weight: bold;
+      margin-top: 10px;
+    }
+    input {
+      margin: 10px 0;
+      padding: 10px;
+      width: 100%;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      font-size: 1rem;
+    }
+    button {
+      margin: 10px 0;
+      padding: 10px;
+      width: 100%;
+      background-color: #2980b9;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+    button:hover {
+      background-color: #1c5d8b;
+    }
+    .hasil {
+      background: #e1eaf5;
+      padding: 15px;
+      border-radius: 5px;
+      margin-top: 20px;
+      font-weight: bold;
+      text-align: center;
+    }
+  </style>
+</head>
+<body>
+  <h2>Kerucut</h2>
+
+  <label>Jari-jari alas (r) dalam cm:</label>
+  <input type="number" id="jari" placeholder="Masukkan jari-jari" required>
+
+  <label>Tinggi kerucut (t) dalam cm:</label>
+  <input type="number" id="tinggi" placeholder="Masukkan tinggi kerucut" required>
+
+  <button onclick="hitungKerucut()">Hitung</button>
+
+  <div class="hasil" id="output"></div>
+
+  <script>
+    function hitungKerucut() {
+      const r = parseFloat(document.getElementById("jari").value);
+      const t = parseFloat(document.getElementById("tinggi").value);
+      if (isNaN(r) || isNaN(t)) {
+        document.getElementById("output").innerHTML = "Mohon masukkan jari-jari dan tinggi dengan benar.";
+        return;
+      }
+
+      const s = Math.sqrt(r * r + t * t);
+      const volume = (1 / 3) * Math.PI * r * r * t;
+      const luasPermukaan = Math.PI * r * (r + s);
+
+      document.getElementById("output").innerHTML = `
+        <strong>Hasil Perhitungan:</strong><br>
+        Garis Pelukis (s): ${s.toFixed(2)} cm<br>
+        Volume: ${volume.toFixed(2)} cm³<br>
+        Luas Permukaan: ${luasPermukaan.toFixed(2)} cm²
+      `;
+    }
+  </script>
+</body>
+</html>

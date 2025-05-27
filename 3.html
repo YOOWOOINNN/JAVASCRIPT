@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Rumus dan Hitung Prisma Segitiga</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap');
+
+        body {
+            margin: 0;
+            background: #f0f4f8;
+            font-family: 'Poppins', sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+            color: #333;
+            padding: 20px;
+        }
+
+        .container {
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            max-width: 520px;
+            width: 100%;
+            padding: 30px 40px;
+            text-align: center;
+        }
+
+        h1, h2 {
+            margin-bottom: 15px;
+            font-weight: 700;
+            color: #1e88e5;
+        }
+
+        p.desc {
+            color: #555;
+            font-size: 1.1rem;
+            margin-bottom: 30px;
+        }
+
+        .formula {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: #222;
+            margin-bottom: 25px;
+        }
+
+        .formula span {
+            color: #e53935; /* red for variables */
+            font-style: italic;
+            margin: 0 6px;
+            display: inline-block;
+            min-width: 15px;
+        }
+
+        .formula .operator {
+            color: #555;
+            margin: 0 6px;
+        }
+
+        .formula .fraction {
+            display: inline-flex;
+            flex-direction: column;
+            align-items: center;
+            margin: 0 6px;
+            font-weight: 700;
+        }
+
+        .fraction > .top {
+            border-bottom: 2px solid #222;
+            padding: 0 4px;
+        }
+
+        .fraction > .bottom {
+            font-size: 1.2rem;
+            padding: 0 4px;
+        }
+
+        .note {
+            font-size: 1rem;
+            color: #777;
+            line-height: 1.5;
+        }
+
+        input, button {
+            margin: 5px 0;
+            padding: 8px;
+            width: 100%;
+        }
+
+        .result {
+            margin-top: 15px;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Rumus Prisma Segitiga</h1>
+        <p class="desc">Volume dan luas permukaan prisma segitiga dengan alas segitiga dan tinggi prisma.</p>
+
+        <div class="formula" aria-label="Rumus Volume">
+            <div><strong>Volume (V) =</strong></div>
+            <div>
+                <span class="fraction" aria-label="satu per dua">
+                    <span class="top">1</span>
+                    <span class="bottom">2</span>
+                </span>
+                <span class="operator">×</span>
+                <span>a</span>
+                <span class="operator">×</span>
+                <span>t</span>
+                <span class="operator">×</span>
+                <span>p</span>
+            </div>
+        </div>
+
+        <p class="note"><small>Dengan: <br />
+            <span style="color:#e53935;">a</span> = panjang alas segitiga<br />
+            <span style="color:#e53935;">t</span> = tinggi segitiga<br />
+            <span style="color:#e53935;">p</span> = panjang prisma</small></p>
+
+        <h2>Hitung Volume dan Luas Permukaan Prisma Segitiga</h2>
+
+        <label>Panjang alas segitiga (a):</label>
+        <input type="number" id="alas" placeholder="contoh: 6">
+
+        <label>Tinggi segitiga alas (t):</label>
+        <input type="number" id="tinggi_alas" placeholder="contoh: 4">
+
+        <label>Tinggi prisma:</label>
+        <input type="number" id="tinggi_prisma" placeholder="contoh: 10">
+
+        <label>Sisi 1 segitiga (s1):</label>
+        <input type="number" id="s1" placeholder="contoh: 6">
+
+        <label>Sisi 2 segitiga (s2):</label>
+        <input type="number" id="s2" placeholder="contoh: 5">
+
+        <label>Sisi 3 segitiga (s3):</label>
+        <input type="number" id="s3" placeholder="contoh: 7">
+
+        <button onclick="hitungPrisma()">Hitung</button>
+
+        <div class="result" id="output"></div>
+    </div>
+
+    <script>
+        function hitungPrisma() {
+            const a = parseFloat(document.getElementById("alas").value);
+            const t = parseFloat(document.getElementById("tinggi_alas").value);
+            const tinggiPrisma = parseFloat(document.getElementById("tinggi_prisma").value);
+            const s1 = parseFloat(document.getElementById("s1").value);
+            const s2 = parseFloat(document.getElementById("s2").value);
+            const s3 = parseFloat(document.getElementById("s3").value);
+
+            // Validasi input
+            if (isNaN(a) || isNaN(t) || isNaN(tinggiPrisma) || isNaN(s1) || isNaN(s2) || isNaN(s3)) {
+                document.getElementById("output").innerText = "Harap isi semua nilai dengan benar.";
+                return;
+            }
+
+            const luasAlas = (a * t) / 2;
+            const volume = luasAlas * tinggiPrisma;
+            const kelilingAlas = s1 + s2 + s3;
+            const luasPermukaan = 2 * luasAlas + kelilingAlas * tinggiPrisma;
+
+            document.getElementById("output").innerHTML = `
+                Volume prisma: ${volume.toFixed(2)} satuan³<br>
+                Luas permukaan prisma: ${luasPermukaan.toFixed(2)} satuan²
+            `;
+        }
+    </script>
+</body>
+</html>

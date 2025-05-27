@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Rumus dan Hitung Prisma Segi Enam</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap');
+
+        body {
+            margin: 0;
+            background: #e3f2fd;
+            font-family: 'Poppins', sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+            color: #212121;
+            padding: 20px;
+        }
+
+        .container {
+            background: white;
+            border-radius: 18px;
+            box-shadow: 0 14px 35px rgba(0, 0, 0, 0.15);
+            max-width: 560px;
+            width: 100%;
+            padding: 40px 50px;
+            text-align: center;
+        }
+
+        h1 {
+            font-weight: 800;
+            font-size: 2.8rem;
+            color: #1565c0;
+            margin-bottom: 20px;
+            letter-spacing: 1.2px;
+        }
+
+        h2 {
+            margin-top: 20px;
+            font-size: 1.8rem;
+            color: #1565c0;
+        }
+
+        p.desc {
+            font-size: 1.2rem;
+            color: #555;
+            margin-bottom: 40px;
+        }
+
+        .formula-block {
+            font-size: 2rem;
+            font-weight: 700;
+            color: #263238;
+            margin-bottom: 35px;
+            user-select: none;
+        }
+
+        .formula-block .fraction {
+            display: inline-flex;
+            flex-direction: column;
+            align-items: center;
+            margin: 0 8px;
+            font-weight: 700;
+        }
+
+        .fraction > .top {
+            border-bottom: 3px solid #263238;
+            padding: 0 6px;
+        }
+
+        .fraction > .bottom {
+            font-size: 1.3rem;
+            padding: 0 6px;
+        }
+
+        .var {
+            color: #d32f2f;
+            font-style: italic;
+            margin: 0 8px;
+            display: inline-block;
+            min-width: 20px;
+        }
+
+        .operator {
+            color: #616161;
+            margin: 0 8px;
+        }
+
+        .note {
+            color: #616161;
+            font-size: 1rem;
+            margin-top: 10px;
+            line-height: 1.5;
+        }
+
+        small {
+            display: block;
+            margin-top: 5px;
+        }
+
+        input, button {
+            margin: 5px 0;
+            padding: 8px;
+            width: 100%;
+        }
+
+        .result {
+            margin-top: 15px;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container" role="main" aria-label="Rumus Prisma Segi Enam">
+        <h1>Rumus Prisma Segi Enam</h1>
+        <p class="desc">Rumus volume dan luas permukaan prisma segi enam beraturan dengan panjang sisi segi enam dan tinggi prisma.</p>
+
+        <div class="formula-block" aria-label="Rumus Luas Alas Segi Enam">
+            <div><strong>Luas Alas (A) =</strong></div>
+            <div>
+                <span class="fraction" aria-label="tiga akar tiga dibagi dua">
+                    <span class="top">3√3</span>
+                    <span class="bottom">2</span>
+                </span>
+                <span class="operator">×</span>
+                <span class="var">s</span>
+                <sup>2</sup>
+            </div>
+        </div>
+
+        <div class="formula-block" aria-label="Rumus Volume Prisma">
+            <div><strong>Volume (V) =</strong></div>
+            <div>
+                <span class="var">A</span>
+                <span class="operator">×</span>
+                <span class="var">t</span>
+            </div>
+        </div>
+
+        <div class="formula-block" aria-label="Rumus Luas Permukaan Prisma">
+            <div><strong>Luas Permukaan (L) =</strong></div>
+            <div>
+                <span>2</span>
+                <span class="operator">×</span>
+                <span class="var">A</span>
+                <span class="operator">+</span>
+                <span>6</span>
+                <span class="operator">×</span>
+                <span class="var">s</span>
+                <span class="operator">×</span>
+                <span class="var">t</span>
+            </div>
+        </div>
+
+        <p class="note"><strong>Keterangan:</strong>
+            <small><span class="var">s</span> = panjang sisi segi enam</small>
+            <small><span class="var">t</span> = tinggi prisma</small>
+            <small><span class="var">A</span> = luas alas segi enam</small>
+            <small>Volume = luas alas dikali tinggi prisma</small>
+            <small>Luas permukaan = 2 × luas alas + keliling × tinggi prisma</small>
+        </p>
+
+        <h2>Hitung Volume dan Luas Permukaan</h2>
+        <label>Panjang Sisi Segi Enam (s): <input type="number" id="sisi" /></label><br>
+        <label>Tinggi Prisma (t): <input type="number" id="tinggiPrisma" /></label><br><br>
+
+        <button onclick="hitungPrismaSegiEnam()">Hitung</button>
+
+        <h3>Hasil:</h3>
+        <p class="result" id="volume"></p>
+        <p class="result" id="luasPermukaan"></p>
+    </div>
+
+    <script>
+        function hitungPrismaSegiEnam() {
+            const s = parseFloat(document.getElementById('sisi').value);
+            const t = parseFloat(document.getElementById('tinggiPrisma').value);
+
+            if (isNaN(s) || isNaN(t)) {
+                alert("Harap isi semua nilai dengan benar!");
+                return;
+            }
+
+            const luasAlas = (3 * Math.sqrt(3) / 2) * Math.pow(s, 2);
+            const kelilingAlas = 6 * s;
+
+            const volume = luasAlas * t;
+            const luasPermukaan = 2 * luasAlas + kelilingAlas * t;
+
+            document.getElementById('volume').innerText = `Volume: ${volume.toFixed(2)} satuan³`;
+            document.getElementById('luasPermukaan').innerText = `Luas Permukaan: ${luasPermukaan.toFixed(2)} satuan²`;
+        }
+    </script>
+</body>
+</html>
