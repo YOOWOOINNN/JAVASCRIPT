@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <title>Pengukur Tinggi & Berat Badan</title>
+  <style>
+    body {
+      font-family: 'Arial', sans-serif;
+      max-width: 500px;
+      margin: auto;
+      padding: 20px;
+      background: #e9ecef;
+      border-radius: 8px;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    }
+    h2 {
+      text-align: center;
+      color: #343a40;
+    }
+    label {
+      font-weight: bold;
+      margin-top: 15px;
+      color: #495057;
+    }
+    input {
+      padding: 10px;
+      border: 1px solid #ced4da;
+      border-radius: 4px;
+      margin-top: 5px;
+      width: 100%;
+      box-sizing: border-box;
+    }
+    button {
+      background-color: #007bff;
+      color: white;
+      border: none;
+      border-radius: 4px;
+      padding: 10px;
+      cursor: pointer;
+      font-size: 16px;
+      margin-top: 20px;
+      transition: background-color 0.3s;
+    }
+    button:hover {
+      background-color: #0056b3;
+    }
+    .hasil {
+      margin-top: 20px;
+      font-weight: bold;
+      font-size: 1.2em;
+      padding: 15px;
+      border-radius: 5px;
+      text-align: center;
+      color: white;
+    }
+  </style>
+</head>
+<body>
+
+  <h2>Pengukur Tinggi dan Berat Badan (BMI)</h2>
+
+  <label for="berat">Berat Badan (kg):</label>
+  <input type="number" id="berat" placeholder="Contoh: 60" />
+
+  <label for="tinggi">Tinggi Badan (cm):</label>
+  <input type="number" id="tinggi" placeholder="Contoh: 170" />
+
+  <button onclick="hitungBMI()">Hitung BMI</button>
+
+  <div class="hasil" id="output"></div>
+
+  <script>
+    function hitungBMI() {
+      const berat = parseFloat(document.getElementById('berat').value);
+      const tinggiCm = parseFloat(document.getElementById('tinggi').value);
+      const output = document.getElementById('output');
+
+      if (isNaN(berat) || isNaN(tinggiCm) || berat <= 0 || tinggiCm <= 0) {
+        output.innerText = "Masukkan berat dan tinggi badan yang valid.";
+        output.style.backgroundColor = "#ffc107";
+        output.style.color = "black";
+        return;
+      }
+
+      const tinggiM = tinggiCm / 100;
+      const bmi = berat / (tinggiM * tinggiM);
+      let kategori = "";
+      let warna = "";
+
+      if (bmi < 18.5) {
+        kategori = "Kurus";
+        warna = "#17a2b8";
+      } else if (bmi >= 18.5 && bmi <= 24.9) {
+        kategori = "Normal";
+        warna = "#28a745";
+      } else if (bmi >= 25 && bmi <= 29.9) {
+        kategori = "Gemuk (Overweight)";
+        warna = "#ffc107";
+      } else {
+        kategori = "Obesitas";
+        warna = "#dc3545";
+      }
+
+      output.innerHTML = `BMI Anda: ${bmi.toFixed(2)}<br>Kategori: ${kategori}`;
+      output.style.backgroundColor = warna;
+      output.style.color = "white";
+    }
+  </script>
+
+</body>
+</html>

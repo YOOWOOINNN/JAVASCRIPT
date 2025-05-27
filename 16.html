@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <title>Trapesium</title>
+  <style>
+    body {
+      font-family: 'Arial', sans-serif;
+      max-width: 600px;
+      margin: auto;
+      padding: 20px;
+      background: #e9ecef;
+      border-radius: 8px;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    }
+    h2 {
+      text-align: center;
+      color: #343a40;
+    }
+    label {
+      font-weight: bold;
+      margin-top: 15px;
+      color: #495057;
+    }
+    input {
+      padding: 10px;
+      border: 1px solid #ced4da;
+      border-radius: 4px;
+      margin-top: 5px;
+      width: 100%;
+      box-sizing: border-box;
+    }
+    button {
+      background-color: #007bff;
+      color: white;
+      border: none;
+      border-radius: 4px;
+      padding: 10px;
+      cursor: pointer;
+      font-size: 16px;
+      margin-top: 20px;
+      transition: background-color 0.3s;
+    }
+    button:hover {
+      background-color: #0056b3;
+    }
+    .hasil {
+      margin-top: 20px;
+      font-weight: bold;
+      background: #f8f9fa;
+      padding: 15px;
+      border: 1px solid #ced4da;
+      border-radius: 4px;
+    }
+  </style>
+</head>
+<body>
+
+  <h2>Hitung Prisma Trapesium</h2>
+
+  <label for="a">Panjang sisi atas trapesium (a):</label>
+  <input type="number" id="a" placeholder="Masukkan panjang sisi atas" />
+
+  <label for="b">Panjang sisi bawah trapesium (b):</label>
+  <input type="number" id="b" placeholder="Masukkan panjang sisi bawah" />
+
+  <label for="t">Tinggi trapesium (t):</label>
+  <input type="number" id="t" placeholder="Masukkan tinggi trapesium" />
+
+  <label for="c">Sisi miring kiri trapesium (c):</label>
+  <input type="number" id="c" placeholder="Masukkan panjang sisi miring kiri" />
+
+  <label for="d">Sisi miring kanan trapesium (d):</label>
+  <input type="number" id="d" placeholder="Masukkan panjang sisi miring kanan" />
+
+  <label for="T">Tinggi prisma (T):</label>
+  <input type="number" id="T" placeholder="Masukkan tinggi prisma" />
+
+  <button onclick="hitung()">Hitung</button>
+
+  <div class="hasil" id="output"></div>
+
+  <script>
+    function hitung() {
+      // Ambil nilai input
+      const a = parseFloat(document.getElementById('a').value);
+      const b = parseFloat(document.getElementById('b').value);
+      const t = parseFloat(document.getElementById('t').value);
+      const c = parseFloat(document.getElementById('c').value);
+      const d = parseFloat(document.getElementById('d').value);
+      const T = parseFloat(document.getElementById('T').value);
+
+      if ([a, b, t, c, d, T].some(isNaN)) {
+        document.getElementById('output').innerText = "Harap isi semua nilai dengan benar.";
+        return;
+      }
+
+      // Hitung luas alas trapesium
+      const luasAlas = 0.5 * (a + b) * t;
+
+      // Hitung keliling alas
+      const kelilingAlas = a + b + c + d;
+
+      // Hitung luas permukaan
+      const luasPermukaan = 2 * luasAlas + kelilingAlas * T;
+
+      // Hitung volume prisma
+      const volume = luasAlas * T;
+
+      // Tampilkan hasil
+      document.getElementById('output').innerHTML = `
+        Luas Permukaan Prisma: ${luasPermukaan.toFixed(2)} satuan²<br>
+        Volume Prisma: ${volume.toFixed(2)} satuan³
+      `;
+    }
+  </script>
+
+</body>
+</html>

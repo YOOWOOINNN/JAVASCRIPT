@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <title>Konversi Suhu</title>
+  <style>
+    body {
+      font-family: 'Arial', sans-serif;
+      max-width: 500px;
+      margin: auto;
+      padding: 20px;
+      background: #e9ecef;
+      border-radius: 8px;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    }
+    h2 {
+      text-align: center;
+      color: #343a40;
+    }
+    label {
+      font-weight: bold;
+      margin-top: 15px;
+      color: #495057;
+    }
+    input, select {
+      padding: 10px;
+      border: 1px solid #ced4da;
+      border-radius: 4px;
+      margin-top: 5px;
+      width: 100%;
+      box-sizing: border-box;
+    }
+    button {
+      background-color: #007bff;
+      color: white;
+      border: none;
+      border-radius: 4px;
+      padding: 10px;
+      cursor: pointer;
+      font-size: 16px;
+      margin-top: 20px;
+      transition: background-color 0.3s;
+    }
+    button:hover {
+      background-color: #0056b3;
+    }
+    .hasil {
+      margin-top: 20px;
+      font-weight: bold;
+      background: #f8f9fa;
+      padding: 15px;
+      border: 1px solid #ced4da;
+      border-radius: 4px;
+    }
+  </style>
+</head>
+<body>
+
+  <h2>Konversi Suhu</h2>
+
+  <label for="inputValue">Masukkan Nilai Suhu:</label>
+  <input type="number" id="inputValue" placeholder="Contoh: 100" />
+
+  <label for="fromUnit">Dari Satuan:</label>
+  <select id="fromUnit">
+    <option value="celsius">Celsius (°C)</option>
+    <option value="fahrenheit">Fahrenheit (°F)</option>
+    <option value="kelvin">Kelvin (K)</option>
+  </select>
+
+  <label for="toUnit">Ke Satuan:</label>
+  <select id="toUnit">
+    <option value="celsius">Celsius (°C)</option>
+    <option value="fahrenheit">Fahrenheit (°F)</option>
+    <option value="kelvin">Kelvin (K)</option>
+  </select>
+
+  <button onclick="konversiSuhu()">Konversi</button>
+
+  <div class="hasil" id="output"></div>
+
+  <script>
+    function konversiSuhu() {
+      const nilai = parseFloat(document.getElementById('inputValue').value);
+      const dari = document.getElementById('fromUnit').value;
+      const ke = document.getElementById('toUnit').value;
+
+      if (isNaN(nilai)) {
+        document.getElementById('output').innerText = "Masukkan angka yang valid.";
+        return;
+      }
+
+      let hasil;
+
+      // Konversi suhu ke Celsius dulu sebagai titik tengah
+      let suhuC;
+      switch (dari) {
+        case 'celsius': suhuC = nilai; break;
+        case 'fahrenheit': suhuC = (nilai - 32) * 5 / 9; break;
+        case 'kelvin': suhuC = nilai - 273.15; break;
+      }
+
+      // Dari Celsius ke satuan tujuan
+      switch (ke) {
+        case 'celsius': hasil = suhuC; break;
+        case 'fahrenheit': hasil = (suhuC * 9 / 5) + 32; break;
+        case 'kelvin': hasil = suhuC + 273.15; break;
+      }
+
+      document.getElementById('output').innerText = `Hasil: ${hasil.toFixed(2)} ${getSimbol(ke)}`;
+    }
+
+    function getSimbol(satuan) {
+      switch (satuan) {
+        case 'celsius': return '°C';
+        case 'fahrenheit': return '°F';
+        case 'kelvin': return 'K';
+      }
+    }
+  </script>
+
+</body>
+</html>

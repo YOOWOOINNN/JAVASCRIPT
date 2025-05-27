@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <title>Pemeriksa Suhu Tubuh</title>
+  <style>
+    body {
+      font-family: 'Arial', sans-serif;
+      max-width: 500px;
+      margin: auto;
+      background: #e9ecef;
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    }
+    h2 {
+      text-align: center;
+      color: #343a40;
+    }
+    label {
+      font-weight: bold;
+      margin-top: 15px;
+      color: #495057;
+    }
+    input {
+      padding: 10px;
+      border: 1px solid #ced4da;
+      border-radius: 4px;
+      margin-top: 5px;
+      width: 100%;
+      box-sizing: border-box;
+    }
+    button {
+      background-color: #007bff;
+      color: white;
+      border: none;
+      border-radius: 4px;
+      padding: 10px;
+      cursor: pointer;
+      font-size: 16px;
+      margin-top: 20px;
+      transition: background-color 0.3s;
+    }
+    button:hover {
+      background-color: #0056b3;
+    }
+    .hasil {
+      margin-top: 20px;
+      font-weight: bold;
+      font-size: 1.2em;
+      padding: 15px;
+      border-radius: 5px;
+      text-align: center;
+      color: white;
+    }
+  </style>
+</head>
+<body>
+
+  <h2>Periksa Suhu Tubuh Anda</h2>
+
+  <label for="suhu">Masukkan Suhu Tubuh (°C):</label>
+  <input type="number" id="suhu" placeholder="Contoh: 37.5" step="0.1" />
+
+  <button onclick="cekSuhu()">Periksa</button>
+
+  <div class="hasil" id="output"></div>
+
+  <script>
+    function cekSuhu() {
+      const suhu = parseFloat(document.getElementById('suhu').value);
+      const output = document.getElementById('output');
+
+      if (isNaN(suhu)) {
+        output.innerText = "Masukkan suhu tubuh yang valid.";
+        output.style.backgroundColor = "#ffc107";
+        output.style.color = "black";
+        return;
+      }
+
+      let status = "";
+      let warna = "";
+
+      if (suhu < 36.1) {
+        status = "Suhu tubuh terlalu rendah (Hipotermia)";
+        warna = "#17a2b8";
+      } else if (suhu >= 36.1 && suhu <= 37.2) {
+        status = "Suhu tubuh normal";
+        warna = "#28a745";
+      } else if (suhu > 37.2 && suhu <= 38.0) {
+        status = "Demam ringan";
+        warna = "#ffc107";
+      } else if (suhu > 38.0 && suhu <= 39.0) {
+        status = "Demam sedang";
+        warna = "#fd7e14";
+      } else {
+        status = "Demam tinggi!";
+        warna = "#dc3545";
+      }
+
+      output.innerText = `Status: ${status}`;
+      output.style.backgroundColor = warna;
+      output.style.color = "white";
+    }
+  </script>
+
+</body>
+</html>
