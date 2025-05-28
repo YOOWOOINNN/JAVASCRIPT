@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <title>Kuis Sederhana</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: linear-gradient(135deg, #f4f4f4, #e0e0e0);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      margin: 0;
+    }
+
+    .quiz-container {
+      background: white;
+      padding: 30px;
+      border-radius: 10px;
+      box-shadow: 0 0 20px rgba(0,0,0,0.2);
+      width: 400px;
+      text-align: center;
+    }
+
+    h2 {
+      margin-bottom: 20px;
+      color: #3498db;
+    }
+
+    .answers {
+      list-style: none;
+      padding: 0;
+      text-align: left;
+    }
+
+    .answers li {
+      margin-bottom: 10px;
+    }
+
+    button {
+      padding: 10px 20px;
+      margin-top: 20px;
+      font-size: 16px;
+      background: #3498db;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: background 0.3s, transform 0.2s;
+    }
+
+    button:hover {
+      background: #2980b9;
+      transform: scale(1.05);
+    }
+
+    #result {
+      margin-top: 20px;
+      font-weight: bold;
+      color: #2ecc71;
+    }
+
+    .cat-image {
+      margin-top: 20px;
+      width: 100px;
+      height: auto;
+    }
+  </style>
+</head>
+<body>
+  <div class="quiz-container">
+    <h2 id="question">Pertanyaan akan muncul di sini</h2>
+    <ul class="answers" id="answers"></ul>
+    <button onclick="submitAnswer()">Submit</button>
+    <div id="result"></div>
+  </div>
+
+  <script>
+    const quizData = [
+      {
+        question: "Apa ibu kota Indonesia?",
+        options: ["Jakarta", "Bandung", "Surabaya", "Medan"],
+        answer: "Jakarta"
+      },
+      {
+        question: "Siapa presiden pertama Indonesia?",
+        options: ["Soeharto", "Jokowi", "Sukarno", "Habibie"],
+        answer: "Sukarno"
+      },
+      {
+        question: "Gunung tertinggi di Indonesia?",
+        options: ["Semeru", "Rinjani", "Puncak Jaya", "Merapi"],
+        answer: "Puncak Jaya"
+      }
+    ];
+
+    const currentQuestion = 0;
+    const score = 0;
+
+    function loadQuestion() {
+      const questionData = quizData[currentQuestion];
+      const questionEl = document.getElementById("question");
+      const answersEl = document.getElementById("answers");
+
+      questionEl.textContent = questionData.question;
+      answersEl.innerHTML = "";
+
+      questionData.options.forEach(option => {
+        const li = document.createElement("li");
+        li.innerHTML = `<label><input type="radio" name="answer" value="${option}"> ${option}</label>`;
+        answersEl.appendChild(li);
+      });
+    }
+
+    function submitAnswer() {
+      const selected = document.querySelector('input[name="answer"]:checked');
+      if (!selected) {
+        alert("Pilih salah satu jawaban!");
+        return;
+      }
+
+      const answer = selected.value;
+      if (answer === quizData[currentQuestion].answer) {
+        score++;
+      }
+
+      currentQuestion++;
+      if (currentQuestion < quizData.length) {
+        loadQuestion();
+      } else {
+        document.querySelector(".quiz-container").innerHTML = `
+          <h2>Kuis selesai!</h2>
+          <p>Skor kamu: ${score} dari ${quizData.length}</p>
+        `;
+      }
+    }
+
+    // Muat pertanyaan pertama saat halaman dimuat
+    loadQuestion();
+  </script>
+</body>
+</html>

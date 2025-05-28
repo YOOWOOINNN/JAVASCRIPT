@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <title>Stopwatch</title>
+  <style>
+    body {
+      font-family: 'Arial', sans-serif;
+      background: linear-gradient(135deg, #1a1a1a, #333);
+      color: #00ffcc;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      margin: 0;
+    }
+
+    .stopwatch {
+      font-size: 80px;
+      margin-bottom: 30px;
+      border: 5px solid #00ffcc;
+      padding: 20px 40px;
+      border-radius: 10px;
+      box-shadow: 0 0 20px #00ffcc;
+    }
+
+    .buttons {
+      display: flex;
+      flex-direction: row;
+    }
+
+    .buttons button {
+      padding: 15px 30px;
+      margin: 5px;
+      font-size: 20px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: background-color 0.3s, transform 0.2s;
+    }
+
+    .start { background-color: #2ecc71; color: white; }
+    .stop { background-color: #e74c3c; color: white; }
+    .reset { background-color: #f1c40f; color: black; }
+
+    .buttons button:hover {
+      transform: scale(1.05);
+    }
+
+    .buttons button:active {
+      transform: scale(0.95);
+    }
+  </style>
+</head>
+<body>
+
+  <div class="stopwatch" id="display">00:00:00</div>
+
+  <div class="buttons">
+    <button class="start" onclick="start()">Start</button>
+    <button class="stop" onclick="stop()">Stop</button>
+    <button class="reset" onclick="reset()">Reset</button>
+  </div>
+
+  <script>
+    let timer;
+    let seconds = 0;
+    let running = false;
+
+    function updateDisplay() {
+      let hrs = Math.floor(seconds / 3600);
+      let mins = Math.floor((seconds % 3600) / 60);
+      let secs = seconds % 60;
+
+      // Format angka agar selalu 2 digit
+      hrs = hrs < 10 ? "0" + hrs : hrs;
+      mins = mins < 10 ? "0" + mins : mins;
+      secs = secs < 10 ? "0" + secs : secs;
+
+      document.getElementById("display").textContent = `${hrs}:${mins}:${secs}`;
+    }
+
+    function start() {
+      if (!running) {
+        running = true;
+        timer = setInterval(() => {
+          seconds++;
+          updateDisplay();
+        }, 1000);
+      }
+    }
+
+    function stop() {
+      running = false;
+      clearInterval(timer);
+    }
+
+    function reset() {
+      stop();
+      seconds = 0;
+      updateDisplay();
+    }
+
+    // Inisialisasi tampilan saat pertama kali
+    updateDisplay();
+  </script>
+</body>
+</html>

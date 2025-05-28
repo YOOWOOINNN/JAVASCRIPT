@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <title>Pemilah Sampah Otomatis</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #ecf9f2;
+      padding: 40px;
+      text-align: center;
+    }
+
+    input, button {
+      font-size: 18px;
+      padding: 10px;
+      margin: 10px;
+      width: 300px;
+    }
+
+    button {
+      background: #28a745;
+      color: white;
+      border: none;
+      border-radius: 5px;
+    }
+
+    #hasil {
+      margin-top: 20px;
+      font-size: 22px;
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>♻️ Pemilah Sampah Berdasarkan Jenis</h1>
+
+  <input type="text" id="sampahInput" placeholder="Masukkan jenis sampah (misal: botol plastik)" />
+  <br>
+  <button onclick="pilahSampah()">Pilah Sampah</button>
+
+  <div id="hasil"></div>
+
+  <script>
+    const kategoriSampah = {
+      organik: ["sisa makanan", "daun", "kulit buah", "nasi", "sayuran"],
+      anorganik: ["plastik", "botol plastik", "kertas", "kaleng", "gelas", "kardus", "stereofoam"],
+      b3: ["baterai", "lampu", "obat", "cat", "oli", "aerosol", "alkohol"]
+    };
+
+    function pilahSampah() {
+      const input = document.getElementById("sampahInput").value.toLowerCase().trim();
+      let hasil = "Jenis sampah tidak dikenali.";
+
+      if (!input) {
+        hasil = "Masukkan nama sampah terlebih dahulu.";
+      } else if (kategoriSampah.organik.includes(input)) {
+        hasil = "✅ Sampah ini termasuk **Organik** 🌿";
+      } else if (kategoriSampah.anorganik.includes(input)) {
+        hasil = "♻️ Sampah ini termasuk **Anorganik** 🧴";
+      } else if (kategoriSampah.b3.includes(input)) {
+        hasil = "⚠️ Sampah ini termasuk **B3 (Berbahaya & Beracun)** ☠️";
+      }
+
+      document.getElementById("hasil").innerHTML = hasil;
+    }
+  </script>
+
+</body>
+</html>

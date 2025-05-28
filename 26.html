@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <title>Pembuat Karakter</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f0f0f0;
+      padding: 20px;
+      text-align: center;
+    }
+
+    .preview {
+      margin-top: 20px;
+    }
+
+    .character {
+      display: inline-block;
+      padding: 20px;
+      border: 2px solid #ccc;
+      background: white;
+      border-radius: 10px;
+    }
+
+    .character img {
+      width: 150px;
+    }
+
+    select, input {
+      margin: 10px;
+      padding: 8px;
+      font-size: 16px;
+    }
+
+    h2 {
+      margin-top: 30px;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>Pembuat Karakter Interaktif</h1>
+
+  <div>
+    <input type="text" id="name" placeholder="Nama Karakter">
+    <br>
+
+    <label>Jenis Kelamin:</label>
+    <select id="gender">
+      <option value="male">Laki-laki</option>
+      <option value="female">Perempuan</option>
+    </select>
+    <br>
+
+    <label>Warna Rambut:</label>
+    <select id="hair">
+      <option value="black">Hitam</option>
+      <option value="brown">Coklat</option>
+      <option value="blonde">Pirang</option>
+      <option value="red">Merah</option>
+    </select>
+    <br>
+
+    <label>Kostum:</label>
+    <select id="outfit">
+      <option value="knight">Ksatria</option>
+      <option value="mage">Penyihir</option>
+      <option value="archer">Pemanah</option>
+    </select>
+    <br>
+
+    <button onclick="generateCharacter()">Buat Karakter</button>
+  </div>
+
+  <div class="preview">
+    <h2>Karakter Anda</h2>
+    <div class="character" id="characterDisplay">
+      <p>Belum ada karakter</p>
+    </div>
+  </div>
+
+  <script>
+    function generateCharacter() {
+      const name = document.getElementById('name').value || "Tanpa Nama";
+      const gender = document.getElementById('gender').value;
+      const hair = document.getElementById('hair').value;
+      const outfit = document.getElementById('outfit').value;
+
+      // Gambar avatar dasar (contoh placeholder)
+      const imageURL = `https://via.placeholder.com/150?text=${gender}+${outfit}`;
+
+      const display = document.getElementById('characterDisplay');
+      display.innerHTML = `
+        <h3>${name}</h3>
+        <img src="${imageURL}" alt="Karakter">
+        <p>Jenis Kelamin: ${gender}</p>
+        <p>Warna Rambut: ${hair}</p>
+        <p>Kostum: ${outfit}</p>
+      `;
+    }
+  </script>
+</body>
+</html>

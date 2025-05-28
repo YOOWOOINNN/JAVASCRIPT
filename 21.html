@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <title>Cuaca</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+      transition: background 0.5s ease;
+      color: white;
+    }
+
+    #weather-icon {
+      font-size: 80px;
+      margin: 20px 0;
+    }
+
+    .sunny {
+      background: #f39c12;
+    }
+
+    .rainy {
+      background: #3498db;
+    }
+
+    .cloudy {
+      background: #7f8c8d;
+    }
+
+    .stormy {
+      background: #34495e;
+    }
+
+    select {
+      padding: 10px;
+      font-size: 16px;
+    }
+  </style>
+</head>
+<body class="sunny">
+  <h1>Pengatur Cuaca</h1>
+
+  <div id="weather-icon">☀️</div>
+
+  <label for="weather">Pilih Cuaca:</label>
+  <select id="weather">
+    <option value="sunny">Cerah</option>
+    <option value="cloudy">Mendung</option>
+    <option value="rainy">Hujan</option>
+    <option value="stormy">Badai</option>
+  </select>
+
+  <script>
+    const weatherSelect = document.getElementById("weather");
+    const body = document.body;
+    const icon = document.getElementById("weather-icon");
+
+    const weatherSettings = {
+      sunny: { icon: "☀️", className: "sunny" },
+      cloudy: { icon: "☁️", className: "cloudy" },
+      rainy: { icon: "🌧️", className: "rainy" },
+      stormy: { icon: "⛈️", className: "stormy" },
+    };
+
+    weatherSelect.addEventListener("change", () => {
+      const weather = weatherSelect.value;
+      const setting = weatherSettings[weather];
+
+      // Update icon
+      icon.textContent = setting.icon;
+
+      // Reset body class
+      body.className = setting.className;
+    });
+  </script>
+</body>
+</html>

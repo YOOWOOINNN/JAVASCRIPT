@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8" />
+<title>Kasir Sederhana</title>
+<style>
+  body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: #f7f7f7;
+    padding: 20px;
+    max-width: 600px;
+    margin: auto;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+  }
+  h1 {
+    text-align: center;
+    color: #333;
+    margin-bottom: 20px;
+  }
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 15px;
+  }
+  th, td {
+    border: 1px solid #ccc;
+    padding: 10px;
+    text-align: center;
+  }
+  th {
+    background-color: #4CAF50;
+    color: white;
+  }
+  input[type="text"], input[type="number"] {
+    width: 100%;
+    padding: 8px;
+    box-sizing: border-box;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+  }
+  input[type="text"]:invalid, input[type="number"]:invalid {
+    border-color: red;
+  }
+  button {
+    background-color: #4CAF50;
+    color: white;
+    padding: 10px 16px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    margin-right: 5px;
+    transition: background-color 0.3s;
+  }
+  button:hover {
+    background-color: #45a049;
+  }
+  #receipt {
+    background: #fff;
+    padding: 15px;
+    border: 1px solid #ddd;
+    margin-top: 20px;
+    white-space: pre-line;
+    border-radius: 4px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  }
+</style>
+</head>
+<body>
+
+<h1>Kasir Sederhana</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Nama Barang</th>
+      <th>Harga (Rp)</th>
+      <th>Jumlah</th>
+      <th>Aksi</th>
+    </tr>
+  </thead>
+  <tbody id="items-body">
+    <!-- Baris barang akan ditambahkan di sini -->
+  </tbody>
+</table>
+
+<div style="text-align: center;">
+  <button onclick="addItem()">Tambah Barang</button>
+  <button onclick="calculateTotal()">Hitung Total</button>
+</div>
+
+<div id="receipt"></div>
+
+<script>
+  const itemsBody = document.getElementById('items-body');
+
+  // Tambah baris barang baru
+  function addItem() {
+    const row = document.createElement('tr');
+
+    row.innerHTML = `
+      <td><input type="text" placeholder="Nama Barang" required></td>
+      <td><input type="number" min="0" value="0" required></td>
+      <td><input type="number" min="1" value="1" required></td>
+      <td><button onclick="removeItem(this)">Hapus</button></td>
+    `;
+
+    itemsBody.appendChild(row);
+  }
+
+  // Hapus baris barang
+  function removeItem(btn) {
+    const row = btn.parentElement.parentElement;
+    itemsBody.removeChild(row);
+  }
+
+  // Hitung total dan tampilkan struk
+  function calculateTotal() {
+    let total = 0;
+    let receiptText = "STRUK BELANJA\n\n";
+
+    const rows = itemsBody.querySelectorAll('tr');
+    if (rows.length === 0) {
+      alert("Tambah minimal satu barang dulu.");
+      return;
+    }
+
+    rows.forEach((row, index) => {
+      const nama = row.cells[0].querySelector('input').value.trim();
+      const harga = parseFloat(row.cells[1].querySelector('input').value);
+      const jumlah = parseInt(row.cells[2].querySelector('input').value);
+
+      if (!nama || isNaN(harga) || isNaN(jumlah) || harga < 0 || jumlah < 1) {
+        alert(`Data barang di baris ${index + 1} tidak valid!`);
+        return;
+      }
+
+      const subtotal = harga * jumlah;
+      total += subtotal;
+
+      receiptText += `${nama} x${jumlah} @Rp${harga.toLocaleString()} = Rp${subtotal.toLocaleString()}\n`;
+    });
+
+    receiptText += `\nTOTAL BAYAR: Rp${total.toLocaleString()}`;
+
+    document.getElementById('receipt').textContent = receiptText;
+  }
+
+  // Awal: tambah satu baris barang kosong
+  addItem();
+</script>
+
+</body>
+</html>
