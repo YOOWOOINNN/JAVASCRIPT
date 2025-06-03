@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>English Dictionary with Images</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap');
+  body {
+    font-family: 'Roboto', sans-serif;
+    background: linear-gradient(135deg, #74ebd5, #ACB6E5);
+    margin: 0;
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+  }
+  .container {
+    background: white;
+    padding: 30px 40px;
+    border-radius: 15px;
+    box-shadow: 0 12px 40px rgba(0,0,0,0.2);
+    max-width: 500px;
+    width: 100%;
+    text-align: center;
+    transition: transform 0.3s ease;
+  }
+  .container:hover {
+    transform: scale(1.02);
+  }
+  h1 {
+    margin-bottom: 20px;
+    color: #333;
+    font-size: 2rem;
+  }
+  input[type="text"] {
+    width: 80%;
+    padding: 10px 15px;
+    margin-bottom: 20px;
+    border: 2px solid #74ebd5;
+    border-radius: 8px;
+    font-size: 1rem;
+    outline: none;
+    transition: border-color 0.3s ease;
+  }
+  input[type="text"]:focus {
+    border-color: #ACB6E5;
+  }
+  .word-info {
+    font-size: 1.2rem;
+    color: #444;
+    margin-top: 20px;
+  }
+  .definition {
+    margin: 15px 0;
+    font-style: italic;
+    color: #666;
+  }
+  .image {
+    margin-top: 20px;
+    max-width: 100%;
+    border-radius: 12px;
+    box-shadow: 0 0 20px rgba(74, 204, 255, 0.5);
+    transition: transform 0.3s ease;
+  }
+  .image:hover {
+    transform: scale(1.05);
+  }
+</style>
+</head>
+<body>
+  <div class="container">
+    <h1>English Dictionary with Images</h1>
+    <input type="text" id="wordInput" placeholder="Type a word (e.g. apple)" list="wordList" autocomplete="off" />
+    <datalist id="wordList">
+      <option value="Apple"></option>
+      <option value="Cat"></option>
+      <option value="Dog"></option>
+      <option value="Car"></option>
+      <option value="House"></option>
+    </datalist>
+    <div class="word-info" id="wordInfo" style="display:none;">
+      <h2 id="wordTitle"></h2>
+      <p class="definition" id="definition"></p>
+      <img id="wordImage" alt="Image" class="image" />
+    </div>
+  </div>
+
+  <script>
+    const dictionary = {
+      apple: {
+        definition: "A round fruit with red or green skin and a sweet taste.",
+        image: "https://upload.wikimedia.org/wikipedia/commons/1/15/Red_Apple.jpg"
+      },
+      cat: {
+        definition: "A small domesticated carnivorous mammal with soft fur, a short snout, and retractile claws.",
+        image: "https://upload.wikimedia.org/wikipedia/commons/3/3a/Cat03.jpg"
+      },
+      dog: {
+        definition: "A domesticated carnivorous mammal that typically has a long snout and barks.",
+        image: "https://upload.wikimedia.org/wikipedia/commons/6/6e/Golde33443.jpg"
+      },
+      car: {
+        definition: "A road vehicle, typically with four wheels, powered by an engine.",
+        image: "https://upload.wikimedia.org/wikipedia/commons/3/34/Red_car_icon.svg"
+      },
+      house: {
+        definition: "A building for human habitation.",
+        image: "https://upload.wikimedia.org/wikipedia/commons/4/47/A_small_house_in_Baden-Württemberg.jpg"
+      }
+    };
+
+    const wordInput = document.getElementById('wordInput');
+    const wordInfo = document.getElementById('wordInfo');
+    const wordTitle = document.getElementById('wordTitle');
+    const definition = document.getElementById('definition');
+    const wordImage = document.getElementById('wordImage');
+
+    wordInput.addEventListener('input', () => {
+      const input = wordInput.value.trim().toLowerCase();
+      if (input && dictionary[input]) {
+        wordTitle.textContent = input.charAt(0).toUpperCase() + input.slice(1);
+        definition.textContent = dictionary[input].definition;
+        wordImage.src = dictionary[input].image;
+        wordImage.alt = input;
+        wordInfo.style.display = 'block';
+      } else {
+        wordInfo.style.display = 'none';
+      }
+    });
+  </script>
+</body>
+</html>

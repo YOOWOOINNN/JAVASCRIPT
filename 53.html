@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <title>To-Do List</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 30px;
+            max-width: 600px;
+            margin: auto;
+            background-color: #f7f7f7;
+        }
+        input, button {
+            padding: 10px;
+            font-size: 16px;
+        }
+        input {
+            width: 70%;
+        }
+        button {
+            width: 28%;
+            background-color: #007BFF;
+            color: white;
+            border: none;
+        }
+        ul {
+            padding: 0;
+            list-style: none;
+            margin-top: 20px;
+        }
+        li {
+            background: #fff;
+            margin-bottom: 10px;
+            padding: 12px;
+            border-left: 5px solid #007BFF;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        li.selesai {
+            text-decoration: line-through;
+            opacity: 0.6;
+        }
+        .hapus {
+            background: red;
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+
+    <h2>📝 To-Do List</h2>
+
+    <input type="text" id="taskInput" placeholder="Tambah tugas...">
+    <button onclick="tambahTugas()">Tambah</button>
+
+    <ul id="taskList"></ul>
+
+    <script>
+        let daftarTugas = JSON.parse(localStorage.getItem("todoList")) || [];
+
+        function renderTugas() {
+            const list = document.getElementById("taskList");
+            list.innerHTML = "";
+
+            daftarTugas.forEach((tugas, index) => {
+                const li = document.createElement("li");
+                li.className = tugas.selesai ? "selesai" : "";
+                li.innerHTML = `
+                    <span onclick="toggleSelesai(${index})" style="cursor:pointer;">${tugas.teks}</span>
+                    <button class="hapus" onclick="hapusTugas(${index})">Hapus</button>
+                `;
+                list.appendChild(li);
+            });
+
+            localStorage.setItem("todoList", JSON.stringify(daftarTugas));
+        }
+
+        function tambahTugas() {
+            const input = document.getElementById("taskInput");
+            const teks = input.value.trim();
+
+            if (teks === "") {
+                alert("Tugas tidak boleh kosong!");
+                return;
+            }
+
+            daftarTugas.push({ teks, selesai: false });
+            input.value = "";
+            renderTugas();
+        }
+
+        function hapusTugas(index) {
+            daftarTugas.splice(index, 1);
+            renderTugas();
+        }
+
+        function toggleSelesai(index) {
+            daftarTugas[index].selesai = !daftarTugas[index].selesai;
+            renderTugas();
+        }
+
+        // Tampilkan saat pertama kali
+        renderTugas();
+    </script>
+
+</body>
+</html>

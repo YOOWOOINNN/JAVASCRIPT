@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <title>Timer Mundur</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            padding: 30px;
+        }
+        input, button {
+            padding: 10px;
+            font-size: 16px;
+            margin: 10px;
+        }
+        #display {
+            font-size: 48px;
+            margin-top: 20px;
+            color: #333;
+        }
+    </style>
+</head>
+<body>
+
+    <h2>⏳ Timer Mundur</h2>
+
+    <input type="number" id="secondsInput" placeholder="Masukkan waktu (detik)">
+    <button onclick="startCountdown()">Mulai</button>
+    <button onclick="resetCountdown()">Reset</button>
+
+    <div id="display">00:00</div>
+
+    <script>
+        let countdown;
+        let totalSeconds;
+
+        function startCountdown() {
+            clearInterval(countdown); // Reset jika sebelumnya sedang berjalan
+
+            const input = document.getElementById("secondsInput").value;
+            totalSeconds = parseInt(input);
+
+            if (isNaN(totalSeconds) || totalSeconds <= 0) {
+                alert("Masukkan jumlah detik yang valid.");
+                return;
+            }
+
+            updateDisplay(totalSeconds);
+
+            countdown = setInterval(() => {
+                totalSeconds--;
+                updateDisplay(totalSeconds);
+
+                if (totalSeconds <= 0) {
+                    clearInterval(countdown);
+                    document.getElementById("display").innerHTML = "⏰ Waktu Habis!";
+                }
+            }, 1000);
+        }
+
+        function updateDisplay(seconds) {
+            const mins = Math.floor(seconds / 60);
+            const secs = seconds % 60;
+            const formatted = `${String(mins).padStart(2, '0')}:${String(secs).padStart(2, '0')}`;
+            document.getElementById("display").innerHTML = formatted;
+        }
+
+        function resetCountdown() {
+            clearInterval(countdown);
+            document.getElementById("display").innerHTML = "00:00";
+            document.getElementById("secondsInput").value = "";
+        }
+    </script>
+
+</body>
+</html>

@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <title>Quiz Matematika dengan Timer</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 40px;
+      text-align: center;
+      background: #f9f9f9;
+    }
+    .quiz-container {
+      background: white;
+      padding: 20px 30px;
+      max-width: 400px;
+      margin: auto;
+      border-radius: 10px;
+      box-shadow: 0 6px 12px rgba(0,0,0,0.1);
+    }
+    #question {
+      font-size: 24px;
+      margin-bottom: 15px;
+    }
+    input[type="number"] {
+      font-size: 18px;
+      padding: 8px;
+      width: 100px;
+      text-align: center;
+    }
+    button {
+      margin-top: 15px;
+      padding: 10px 20px;
+      font-size: 16px;
+      cursor: pointer;
+    }
+    #timer {
+      font-size: 20px;
+      margin-top: 10px;
+      color: #d9534f;
+      font-weight: bold;
+    }
+    #score {
+      margin-top: 20px;
+      font-size: 20px;
+      color: #5cb85c;
+      font-weight: bold;
+    }
+    #result {
+      margin-top: 15px;
+      font-size: 18px;
+    }
+  </style>
+</head>
+<body>
+
+<div class="quiz-container">
+  <h2>Quiz Matematika</h2>
+  <div id="question">Soal akan muncul di sini</div>
+  <input type="number" id="answer" placeholder="Jawaban" />
+  <br />
+  <button onclick="submitAnswer()">Jawab</button>
+  <div id="timer">Waktu tersisa: 15 detik</div>
+  <div id="result"></div>
+  <div id="score"></div>
+</div>
+
+<script>
+  const totalQuestions = 5;
+  const timePerQuestion = 15; // detik
+
+  let currentQuestion = 0;
+  let score = 0;
+  let timerId;
+  let timeLeft = timePerQuestion;
+  let correctAnswer = 0;
+
+  function generateQuestion() {
+    const operators = ['+', '-', '×'];
+    const num1 = Math.floor(Math.random() * 20) + 1;
+    const num2 = Math.floor(Math.random() * 20) + 1;
+    const op = operators[Math.floor(Math.random() * operators.length)];
+
+    let questionText;
+    switch (op) {
+      case '+':
+        correctAnswer = num1 + num2;
+        questionText = `${num1} + ${num2} = ?`;
+        break;
+      case '-':
+        correctAnswer = num1 - num2;
+        questionText = `${num1} - ${num2} = ?`;
+        break;
+      case '×':
+        correctAnswer = num1 * num2;
+        questionText = `${num1} × ${num2} = ?`;
+        break;
+    }
+
+    document.getElementById('question').textContent = questionText;
+    document.getElementById('answer').value = '';
+    document.getElementById('result').textContent = '';
+    document.getElementById('answer').focus();
+
+    timeLeft = timePerQuestion;
+    document.getElementById('timer').textContent = `Waktu tersisa: ${timeLeft} detik`;
+
+    // Mulai timer ulang
+    clearInterval(timerId);
+    timerId = setInterval(() => {
+      timeLeft--;
+      document.getElementById('timer').textContent = `Waktu tersisa: ${timeLeft} detik`;
+      if (timeLeft <= 0) {
+        clearInterval(timerId);
+        document.getElementById('result').textContent = `⏰ Waktu habis! Jawaban benar: ${correctAnswer}`;
+        nextQuestion();
+      }
+    }, 1000);
+  }
+
+  function submitAnswer() {
+    const userAnswer = Number(document.getElementById('answer').value);
+    clearInterval(timerId);
+
+    if (userAnswer === correctAnswer) {
+      score++;
+      document.getElementById('result').textContent = '✅ Jawaban benar!';
+      document.getElementById('result').style.color = 'green';
+    } else {
+      document.getElementById('result').textContent = `❌ Jawaban salah. Jawaban benar: ${correctAnswer}`;
+      document.getElementById('result').style.color = 'red';
+    }
+
+    setTimeout(() => {
+      nextQuestion();
+    }, 1500);
+  }
+
+  function nextQuestion() {
+    currentQuestion++;
+    if (currentQuestion < totalQuestions) {
+      generateQuestion();
+    } else {
+      document.getElementById('question').textContent = 'Quiz selesai!';
+      document.getElementById('timer').textContent = '';
+      document.getElementById('answer').style.display = 'none';
+      document.querySelector('button').style.display = 'none';
+      document.getElementById('result').textContent = '';
+      document.getElementById('score').textContent = `Skor akhir kamu: ${score} dari ${totalQuestions}`;
+    }
+  }
+
+  // Mulai quiz pertama kali
+  generateQuestion();
+</script>
+
+</body>
+</html>

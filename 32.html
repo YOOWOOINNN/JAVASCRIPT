@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <title>Tic Tac Toe</title>
+  <style>
+    body {
+      font-family: 'Arial', sans-serif;
+      background-color: #e9ecef;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      margin-top: 50px;
+      color: #343a40;
+    }
+
+    h1 {
+      color: #343a40;
+      margin-bottom: 20px;
+      text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
+    }
+
+    .board {
+      display: grid;
+      grid-template-columns: repeat(3, 100px);
+      grid-template-rows: repeat(3, 100px);
+      gap: 10px;
+      margin: 20px;
+      border: 5px solid #343a40;
+      border-radius: 10px;
+      padding: 10px;
+      background-color: #ffffff;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    }
+
+    .cell {
+      background-color: #ffffff;
+      border: 2px solid #343a40;
+      font-size: 3em;
+      text-align: center;
+      line-height: 100px;
+      cursor: pointer;
+      user-select: none;
+      transition: background-color 0.3s, transform 0.2s;
+      border-radius: 8px;
+    }
+
+    .cell:hover {
+      background-color: #f8f9fa;
+      transform: scale(1.05);
+    }
+
+    .status {
+      margin: 20px;
+      font-size: 1.5em;
+      font-weight: bold;
+    }
+
+    .restart {
+      padding: 10px 20px;
+      font-size: 1.2em;
+      cursor: pointer;
+      background-color: #007bff;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      transition: background-color 0.3s, transform 0.2s;
+    }
+
+    .restart:hover {
+      background-color: #0056b3;
+      transform: scale(1.05);
+    }
+
+    @media (max-width: 400px) {
+      .board {
+        grid-template-columns: repeat(3, 80px);
+        grid-template-rows: repeat(3, 80px);
+      }
+
+      .cell {
+        line-height: 80px;
+        font-size: 2.5em;
+      }
+
+      .status {
+        font-size: 1.2em;
+      }
+
+      .restart {
+        font-size: 1em;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <h1>Tic Tac Toe</h1>
+  <div class="status" id="status">Giliran: X</div>
+  <div class="board" id="board">
+    <!-- 9 cell akan di-generate oleh JavaScript -->
+  </div>
+  <button class="restart" onclick="restartGame()">Mulai Ulang</button>
+
+  <script>
+    const board = document.getElementById('board');
+    const statusText = document.getElementById('status');
+    let currentPlayer = 'X';
+    let cells = ['', '', '', '', '', '', '', '', ''];
+    let gameOver = false;
+
+    function createBoard() {
+      board.innerHTML = '';
+      for (let i = 0; i < 9; i++) {
+        const cell = document.createElement('div');
+        cell.classList.add('cell');
+        cell.dataset.index = i;
+        cell.addEventListener('click', handleClick);
+        board.appendChild(cell);
+      }
+    }
+
+    function handleClick(e) {
+      const index = e.target.dataset.index;
+
+      if (cells[index] !== '' || gameOver) return;
+
+      cells[index] = currentPlayer;
+      e.target.textContent = currentPlayer;
+
+      if (checkWinner()) {
+        statusText.textContent = `Pemenang: ${currentPlayer}`;
+        gameOver = true;
+        return;
+      }
+
+      if (cells.every(cell => cell !== '')) {
+        statusText.textContent = "Hasil: Seri!";
+        gameOver = true;
+        return;
+      }
+
+      currentPlayer = currentPlayer === 'X' ? 'O' : 'X';
+      statusText.textContent = `Giliran: ${currentPlayer}`;
+    }
+
+    function checkWinner() {
+      const winPatterns = [
+        [0, 1, 2], [3, 4, 5], [6, 7, 8], // baris
+        [0, 3, 6], [1, 4, 7], [2, 5, 8], // kolom
+        [0, 4, 8], [2, 4, 6]             // diagonal
+      ];
+
+      return winPatterns.some(pattern => {
+        const [a, b, c] = pattern;
+        return cells[a] && cells[a] === cells[b] && cells[a] === cells[c];
+      });
+    }
+
+    function restartGame() {
+      cells = ['', '', '', '', '', '', '', '', ''];
+      currentPlayer = 'X';
+      gameOver = false;
+      statusText.textContent = `Giliran: ${currentPlayer}`;
+      createBoard();
+    }
+
+    // Inisialisasi
+    createBoard();
+  </script>
+
+</body>
+</html>

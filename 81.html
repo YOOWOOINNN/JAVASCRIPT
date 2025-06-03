@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <title>Kontrol Pemutar Video</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      padding: 40px;
+      text-align: center;
+      background: #f0f0f0;
+    }
+    video {
+      width: 640px;
+      max-width: 100%;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      background: black;
+    }
+    .controls {
+      margin-top: 10px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 15px;
+      flex-wrap: wrap;
+    }
+    button {
+      padding: 8px 12px;
+      font-size: 16px;
+      cursor: pointer;
+      border: none;
+      background-color: #007bff;
+      color: white;
+      border-radius: 5px;
+      transition: background-color 0.3s;
+    }
+    button:hover {
+      background-color: #0056b3;
+    }
+    input[type="range"] {
+      cursor: pointer;
+    }
+    .time {
+      font-family: monospace;
+      font-size: 14px;
+      min-width: 80px;
+      color: #333;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>Kontrol Pemutar Video</h1>
+
+  <video id="video" src="https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.webm" preload="metadata"></video>
+
+  <div class="controls">
+    <button id="playPauseBtn">Play</button>
+    <button id="muteBtn">Mute</button>
+    
+    <label for="volumeRange">Volume:</label>
+    <input type="range" id="volumeRange" min="0" max="1" step="0.01" value="1" />
+
+    <label for="progressRange">Progress:</label>
+    <input type="range" id="progressRange" min="0" max="100" value="0" style="width: 300px;" />
+
+    <div class="time" id="timeDisplay">00:00 / 00:00</div>
+  </div>
+
+  <script>
+    const video = document.getElementById('video');
+    const playPauseBtn = document.getElementById('playPauseBtn');
+    const muteBtn = document.getElementById('muteBtn');
+    const volumeRange = document.getElementById('volumeRange');
+    const progressRange = document.getElementById('progressRange');
+    const timeDisplay = document.getElementById('timeDisplay');
+
+    // Format detik jadi mm:ss
+    function formatTime(time) {
+      const minutes = Math.floor(time / 60);
+      const seconds = Math.floor(time % 60);
+      return `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+    }
+
+    // Play/pause toggle
+    playPauseBtn.addEventListener('click', () => {
+      if(video.paused) {
+        video.play();
+        playPauseBtn.textContent = 'Pause';
+      } else {
+        video.pause();
+        playPauseBtn.textContent = 'Play';
+      }
+    });
+
+    // Mute/unmute toggle
+    muteBtn.addEventListener('click', () => {
+      video.muted = !video.muted;
+      muteBtn.textContent = video.muted ? 'Unmute' : 'Mute';
+      // Sync slider volume if muted
+      volumeRange.value = video.muted ? 0 : video.volume;
+    });
+
+    // Volume control
+    volumeRange.addEventListener('input', () => {
+      video.volume = volumeRange.value;
+      video.muted = video.volume === 0;
+      muteBtn.textContent = video.muted ? 'Unmute' : 'Mute';
+    });
+
+    // Update progress slider while video plays
+    video.addEventListener('timeupdate', () => {
+      const progressPercent = (video.currentTime / video.duration) * 100;
+      progressRange.value = progressPercent || 0;
+      timeDisplay.textContent = `${formatTime(video.currentTime)} / ${formatTime(video.duration)}`;
+    });
+
+    // Seek video on progress slider change
+    progressRange.addEventListener('input', () => {
+      const seekTime = (progressRange.value / 100) * video.duration;
+      video.currentTime = seekTime;
+    });
+
+    // Reset button text when video ends
+    video.addEventListener('ended', () => {
+      playPauseBtn.textContent = 'Play';
+    });
+
+    // Update time display on loadedmetadata
+    video.addEventListener('loadedmetadata', () => {
+      timeDisplay.textContent = `00:00 / ${formatTime(video.duration)}`;
+    });
+  </script>
+
+</body>
+</html>

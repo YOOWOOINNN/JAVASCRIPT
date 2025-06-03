@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <title>Jam Alarm</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: #282c34;
+      color: white;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      margin: 0;
+      padding: 20px;
+    }
+    #clock {
+      font-size: 60px;
+      font-weight: bold;
+      margin-bottom: 40px;
+      letter-spacing: 4px;
+    }
+    .alarm-controls {
+      display: flex;
+      gap: 10px;
+      align-items: center;
+      margin-bottom: 20px;
+    }
+    input[type="number"] {
+      width: 60px;
+      padding: 8px;
+      font-size: 18px;
+      border-radius: 6px;
+      border: none;
+      text-align: center;
+    }
+    button {
+      padding: 10px 20px;
+      background: #4caf50;
+      border: none;
+      border-radius: 6px;
+      color: white;
+      font-weight: bold;
+      cursor: pointer;
+      transition: background-color 0.3s;
+    }
+    button:hover {
+      background: #388e3c;
+    }
+    #alarmStatus {
+      margin-top: 15px;
+      font-size: 18px;
+      height: 24px;
+    }
+  </style>
+</head>
+<body>
+
+  <div id="clock">00:00:00</div>
+
+  <div class="alarm-controls">
+    <label for="alarmHour">Jam:</label>
+    <input type="number" id="alarmHour" min="0" max="23" placeholder="00" />
+    <label for="alarmMinute">Menit:</label>
+    <input type="number" id="alarmMinute" min="0" max="59" placeholder="00" />
+    <button id="setAlarmBtn">Set Alarm</button>
+    <button id="clearAlarmBtn" style="background:#d32f2f;">Reset</button>
+  </div>
+
+  <div id="alarmStatus"></div>
+
+  <audio id="alarmSound" src="https://actions.google.com/sounds/v1/alarms/alarm_clock.ogg" preload="auto"></audio>
+
+  <script>
+    const clock = document.getElementById('clock');
+    const alarmHourInput = document.getElementById('alarmHour');
+    const alarmMinuteInput = document.getElementById('alarmMinute');
+    const setAlarmBtn = document.getElementById('setAlarmBtn');
+    const clearAlarmBtn = document.getElementById('clearAlarmBtn');
+    const alarmStatus = document.getElementById('alarmStatus');
+    const alarmSound = document.getElementById('alarmSound');
+
+    let alarmTime = null;
+    let alarmTimeout = null;
+    let alarmActive = false;
+
+    function updateClock() {
+      const now = new Date();
+      const h = String(now.getHours()).padStart(2, '0');
+      const m = String(now.getMinutes()).padStart(2, '0');
+      const s = String(now.getSeconds()).padStart(2, '0');
+      clock.textContent = `${h}:${m}:${s}`;
+
+      if (alarmActive && alarmTime === `${h}:${m}`) {
+        alarmSound.play();
+        alarmStatus.textContent = '⏰ Alarm berbunyi!';
+        alarmActive = false;
+      }
+    }
+
+    setInterval(updateClock, 1000);
+
+    setAlarmBtn.addEventListener('click', () => {
+      const h = parseInt(alarmHourInput.value, 10);
+      const m = parseInt(alarmMinuteInput.value, 10);
+
+      if (
+        isNaN(h) || isNaN(m) ||
+        h < 0 || h > 23 ||
+        m < 0 || m > 59
+      ) {
+        alert('Masukkan jam dan menit yang valid.');
+        return;
+      }
+
+      alarmTime = `${String(h).padStart(2,'0')}:${String(m).padStart(2,'0')}`;
+      alarmActive = true;
+      alarmStatus.textContent = `Alarm di-set pada ${alarmTime}`;
+      alarmSound.pause();
+      alarmSound.currentTime = 0;
+    });
+
+    clearAlarmBtn.addEventListener('click', () => {
+      alarmTime = null;
+      alarmActive = false;
+      alarmStatus.textContent = 'Alarm dibatalkan.';
+      alarmSound.pause();
+      alarmSound.currentTime = 0;
+      alarmHourInput.value = '';
+      alarmMinuteInput.value = '';
+    });
+  </script>
+
+</body>
+</html>

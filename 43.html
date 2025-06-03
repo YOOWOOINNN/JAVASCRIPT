@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Multiple Physics Calculators</title>
+<style>
+  body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+    background: #76a37d;
+  }
+  #project5 {
+    font-family: 'Verdana', Geneva, Tahoma, sans-serif;
+    background-color: #e6f2e6;
+    color: #2e5339;
+    max-width: 400px;
+    padding: 20px 25px;
+    border-radius: 15px;
+    box-shadow: 0 8px 20px rgba(46, 83, 57, 0.35);
+  }
+  #project5 h2 {
+    color: #217234;
+    margin-bottom: 10px;
+    font-weight: 700;
+  }
+  #project5 label {
+    display: block;
+    margin-top: 14px;
+    font-weight: 600;
+    font-size: 1.1rem;
+  }
+  #project5 input[type=number] {
+    width: 95%;
+    padding: 10px;
+    margin-top: 10px;
+    border-radius: 8px;
+    border: 2px solid #4caf50;
+    background-color: #d4efd0;
+    color: #2e5339;
+    font-size: 20px;
+  }
+  #project5 input[type=number]:focus {
+    border-color: #217234;
+    outline: none;
+  }
+  #project5 button {
+    margin-top: 16px;
+    width: 100%;
+    background-color: #4caf50;
+    border: none;
+    font-size: 1.1rem;
+    font-weight: 700;
+    padding: 12px;
+    border-radius: 10px;
+    cursor: pointer;
+    color: white;
+    transition: background-color 0.3s ease;
+  }
+  #project5 button:hover {
+    background-color: #3a8a2a;
+  }
+  #project5 p {
+    margin-top: 18px;
+    font-weight: 700;
+  }
+  #project5 p.error {
+    color: #a03022;
+  }
+
+</style>
+</head>
+<body>
+
+<section id="project5" class="project">
+  <h2>Kalkulator Energi Mekanik</h2>
+  <label for="kecepatan5">Masukkan kecepatan benda (m/s):</label>
+  <input type="number" id="kecepatan5" />
+  <label for="massa5">Masukkan massa benda (kg):</label>
+  <input type="number" id="massa5" />
+  <label for="tinggi5">Masukkan tinggi benda (m):</label>
+  <input type="number" id="tinggi5" />
+  <label for="gravitasi5">Masukkan percepatan gravitasi (m/s²):</label>
+  <input type="number" id="gravitasi5" value="9.8" />
+  <button id="btnHitung5">Hitung Energi Mekanik</button>
+  <p class="result" id="hasil5">Hasil: -</p>
+  <p class="error" id="error5"></p>
+</section>
+
+<script>
+  document.getElementById('btnHitung5').addEventListener('click', () => {
+    const kecepatan = parseFloat(document.getElementById('kecepatan5').value);
+    const massa = parseFloat(document.getElementById('massa5').value);
+    const tinggi = parseFloat(document.getElementById('tinggi5').value);
+    let gravitasi = parseFloat(document.getElementById('gravitasi5').value);
+    const error = document.getElementById('error5');
+    const hasil = document.getElementById('hasil5');
+    error.textContent = '';
+    hasil.textContent = 'Hasil: -';
+
+    if (isNaN(massa) || massa <= 0) {
+      error.textContent = 'Mohon masukkan massa yang valid dan lebih besar dari 0.';
+      return;
+    }
+    if (isNaN(kecepatan) || kecepatan < 0) {
+      error.textContent = 'Mohon masukkan kecepatan yang valid (tidak negatif).';
+      return;
+    }
+    if (isNaN(tinggi) || tinggi < 0) {
+      error.textContent = 'Mohon masukkan tinggi yang valid (tidak negatif).';
+      return;
+    }
+    if (isNaN(gravitasi) || gravitasi <= 0) {
+      gravitasi = 9.8; // default value
+      document.getElementById('gravitasi5').value = gravitasi;
+    }
+
+    const Ek = 0.5 * massa * Math.pow(kecepatan, 2);
+    const Ep = massa * gravitasi * tinggi;
+    const Emekanik = Ek + Ep;
+
+    hasil.textContent = `Energi mekanik benda adalah: ${Emekanik.toFixed(2)} joule`;
+  });
+</script>
+
+</body>
+</html>

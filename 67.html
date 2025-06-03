@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Animasi Bunga Mekar Banyak</title>
+<style>
+  body, html {
+    margin: 0; padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background: linear-gradient(135deg, #def0d6, #a2d149);
+  }
+  canvas {
+    background: #a2d149;
+    border-radius: 20px;
+    box-shadow: 0 0 40px #4caf50cc;
+    display: block;
+  }
+</style>
+</head>
+<body>
+
+<canvas id="flowerCanvas" width="900" height="700"></canvas>
+
+<script>
+  const canvas = document.getElementById('flowerCanvas');
+  const ctx = canvas.getContext('2d');
+
+  // Set proper flower data and colors
+  const flowerColors = [
+    'rgba(255, 105, 180, 0.85)', // pink
+    'rgba(255, 193, 7, 0.85)',   // amber
+    'rgba(76, 175, 80, 0.85)',   // green
+    'rgba(33, 150, 243, 0.85)',  // blue
+    'rgba(156, 39, 176, 0.85)',  // purple
+    'rgba(255, 87, 34, 0.85)'    // deep orange
+  ];
+
+  // Generate positions for flowers in a grid with jitter
+  const flowerPositions = [];
+  const rows = 4;
+  const cols = 5;
+  const cellWidth = canvas.width / cols;
+  const cellHeight = canvas.height / rows;
+
+  for (let r = 0; r < rows; r++) {
+    for (let c = 0; c < cols; c++) {
+      let x = c * cellWidth + cellWidth / 2 + (Math.random() - 0.5) * 40;
+      let y = r * cellHeight + cellHeight / 2 + (Math.random() - 0.5) * 40;
+      flowerPositions.push({ x, y });
+    }
+  }
+
+  // Function to draw one flower at a position
+  function drawFlower(x, y, petalCount, petalLength, petalWidth, color, progress) {
+    // Draw stem
+    ctx.beginPath();
+    ctx.strokeStyle = '#2e7d32cc';
+    ctx.lineWidth = petalWidth / 2;
+    ctx.lineCap = 'round';
+    ctx.moveTo(x, y);
+    ctx.lineTo(x, y + petalLength * 1.2);
+    ctx.stroke();
+
+    // Draw petals
+    for(let i = 0; i < petalCount; i++) {
+      const angle = (2 * Math.PI / petalCount) * i;
+      drawPetal(x, y, angle, progress, petalLength, petalWidth, color);
+    }
+
+    // Draw center
+    ctx.beginPath();
+    ctx.fillStyle = '#ffeb3bcc';
+    ctx.shadowColor = 'rgba(255, 235, 59, 0.8)';
+    ctx.shadowBlur = 14;
+    ctx.arc(x, y, petalWidth * 0.5, 0, Math.PI * 2);
+    ctx.fill();
+    ctx.shadowBlur = 0;
+  }
+
+  function drawPetal(cx, cy, angle, progress, petalLength, petalWidth, color) {
+    ctx.save();
+    ctx.translate(cx, cy);
+    ctx.rotate(angle);
+
+    const openRatio = progress;
+
+    ctx.beginPath();
+    ctx.moveTo(0, 0);
+
+    ctx.bezierCurveTo(
+      petalWidth * openRatio, -petalLength * 0.4 * openRatio,
+      petalWidth * openRatio, -petalLength * openRatio,
+      0, -petalLength * openRatio
+    );
+    ctx.bezierCurveTo(
+      -petalWidth * openRatio, -petalLength * openRatio,
+      -petalWidth * openRatio, -petalLength * 0.4 * openRatio,
+      0, 0
+    );
+
+    ctx.fillStyle = color;
+    ctx.shadowColor = color;
+    ctx.shadowBlur = 8 * openRatio;
+    ctx.fill();
+    ctx.restore();
+  }
+
+  // Animation progress
+  let animationProgress = 0; // 0 - 1
+
+  function animate() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+    for(let i = 0; i < flowerPositions.length; i++) {
+      const pos = flowerPositions[i];
+      // Slight variation in petals count and sizes per flower for natural effect
+      const petalCount = 5 + (i % 4); // 5 to 8 petals
+      const petalLength = 70 + (i % 3) * 15; // 70, 85, or 100
+      const petalWidth = 30 + (i % 2) * 10; // 30 or 40
+      const color = flowerColors[i % flowerColors.length];
+
+      // Calculate progress for fade-in effect
+      const fadeInProgress = Math.min(animationProgress * 1.5, 1); // Fade in faster
+      const yOffset = Math.sin(animationProgress * Math.PI) * 10; // Up and down movement
+
+      drawFlower(pos.x, pos.y + yOffset, petalCount, petalLength, petalWidth, color, fadeInProgress);
+    }
+
+    // Grow animation
+    animationProgress += 0.006;
+    if(animationProgress > 1) animationProgress = 1;
+
+    requestAnimationFrame(animate);
+  }
+
+  animate();
+
+</script>
+
+</body>
+</html>

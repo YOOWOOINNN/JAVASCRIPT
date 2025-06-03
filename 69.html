@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Random Number Generator</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f5f7fa;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+    .container {
+      background: white;
+      padding: 30px;
+      border-radius: 10px;
+      box-shadow: 0 0 15px rgba(0,0,0,0.1);
+      text-align: center;
+    }
+    input {
+      padding: 10px;
+      font-size: 16px;
+      width: 100px;
+      margin: 5px;
+    }
+    button {
+      padding: 10px 20px;
+      font-size: 16px;
+      background: #007bff;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      margin-top: 10px;
+      cursor: pointer;
+    }
+    button:hover {
+      background: #0056b3;
+    }
+    .result {
+      font-size: 2rem;
+      margin-top: 20px;
+      color: #333;
+    }
+  </style>
+</head>
+<body>
+
+<div class="container">
+  <h2>🎲 Random Number Generator</h2>
+  <div>
+    <input type="number" id="min" placeholder="Min" />
+    <input type="number" id="max" placeholder="Max" />
+  </div>
+  <button onclick="generateRandom()">Generate</button>
+  <div class="result" id="result">—</div>
+</div>
+
+<script>
+  function generateRandom() {
+    const min = parseInt(document.getElementById('min').value);
+    const max = parseInt(document.getElementById('max').value);
+    const resultEl = document.getElementById('result');
+
+    if (isNaN(min) || isNaN(max)) {
+      resultEl.textContent = 'Masukkan angka yang valid.';
+      return;
+    }
+
+    if (min > max) {
+      resultEl.textContent = 'Min harus ≤ Max.';
+      return;
+    }
+
+    const randomNum = Math.floor(Math.random() * (max - min + 1)) + min;
+    resultEl.textContent = randomNum;
+  }
+</script>
+
+</body>
+</html>

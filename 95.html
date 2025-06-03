@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <title>Tes Kecepatan Mengetik</title>
+  <style>
+    body { font-family: Arial, sans-serif; padding: 20px; }
+    textarea, input { width: 100%; margin-top: 10px; }
+    .result { margin-top: 20px; font-weight: bold; }
+  </style>
+</head>
+<body>
+
+  <h2>Tes Kecepatan Mengetik</h2>
+  <p id="textToType">
+    Kecepatan mengetik adalah kemampuan mengetik kata dengan cepat dan akurat tanpa melihat keyboard.
+  </p>
+
+  <textarea id="typingArea" rows="5" placeholder="Ketik ulang teks di atas di sini..."></textarea>
+  <button onclick="calculateSpeed()">Selesai</button>
+
+  <div class="result" id="result"></div>
+
+  <script>
+    let startTime;
+    const typingArea = document.getElementById('typingArea');
+    const textToType = document.getElementById('textToType').innerText;
+
+    // Mulai timer saat pengguna mulai mengetik
+    typingArea.addEventListener('focus', () => {
+      if (!startTime) {
+        startTime = new Date();
+      }
+    });
+
+    function calculateSpeed() {
+      const typedText = typingArea.value.trim();
+      const endTime = new Date();
+      const timeTaken = (endTime - startTime) / 1000 / 60; // dalam menit
+
+      const wordCount = typedText.split(/\s+/).length;
+      const wpm = Math.round(wordCount / timeTaken);
+
+      let accuracy = calculateAccuracy(typedText, textToType);
+
+      document.getElementById('result').innerHTML =
+        `Waktu: ${timeTaken.toFixed(2)} menit<br>` +
+        `Kecepatan: ${wpm} kata/menit (WPM)<br>` +
+        `Akurasi: ${accuracy.toFixed(2)}%`;
+    }
+
+    function calculateAccuracy(typed, original) {
+      let correct = 0;
+      const typedWords = typed.split(/\s+/);
+      const originalWords = original.split(/\s+/);
+      const minLength = Math.min(typedWords.length, originalWords.length);
+
+      for (let i = 0; i < minLength; i++) {
+        if (typedWords[i] === originalWords[i]) {
+          correct++;
+        }
+      }
+      return (correct / originalWords.length) * 100;
+    }
+  </script>
+
+</body>
+</html>

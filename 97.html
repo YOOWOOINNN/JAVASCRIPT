@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <title>Pengingat</title>
+  <style>
+    body { font-family: Arial, sans-serif; padding: 20px; }
+    input, button { padding: 8px; margin-top: 10px; width: 100%; }
+    .reminder-list { margin-top: 20px; }
+    .reminder-item { margin: 5px 0; padding: 8px; background: #f0f0f0; border-left: 5px solid #4CAF50; }
+  </style>
+</head>
+<body>
+
+  <h2>Pengingat Sederhana</h2>
+
+  <label>Judul Pengingat:</label>
+  <input type="text" id="reminderText" placeholder="Contoh: Minum Obat">
+
+  <label>Waktu Pengingat:</label>
+  <input type="datetime-local" id="reminderTime">
+
+  <button onclick="setReminder()">Setel Pengingat</button>
+
+  <div class="reminder-list" id="reminderList"></div>
+
+  <script>
+    const reminders = [];
+
+    function setReminder() {
+      const text = document.getElementById('reminderText').value;
+      const time = document.getElementById('reminderTime').value;
+
+      if (!text || !time) {
+        alert("Mohon isi judul dan waktu pengingat.");
+        return;
+      }
+
+      const reminderTime = new Date(time);
+      const now = new Date();
+
+      if (reminderTime <= now) {
+        alert("Waktu pengingat harus di masa depan.");
+        return;
+      }
+
+      reminders.push({ text, time: reminderTime });
+
+      const item = document.createElement('div');
+      item.className = "reminder-item";
+      item.textContent = `🔔 "${text}" pada ${reminderTime.toLocaleString()}`;
+      document.getElementById('reminderList').appendChild(item);
+
+      // Atur timeout untuk mengingatkan
+      const timeDiff = reminderTime - now;
+      setTimeout(() => {
+        alert(`⏰ Pengingat: ${text}`);
+      }, timeDiff);
+    }
+  </script>
+
+</body>
+</html>

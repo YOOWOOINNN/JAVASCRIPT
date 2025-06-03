@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <title>Stopwatch Digital</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background-color: #222;
+      color: #eee;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      margin: 0;
+    }
+    #stopwatch {
+      font-size: 60px;
+      font-weight: bold;
+      letter-spacing: 4px;
+      margin-bottom: 40px;
+      font-family: monospace;
+    }
+    .buttons {
+      display: flex;
+      gap: 20px;
+    }
+    button {
+      padding: 15px 30px;
+      font-size: 18px;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background-color 0.3s;
+      font-weight: bold;
+      color: white;
+    }
+    #startStopBtn {
+      background-color: #4caf50;
+    }
+    #startStopBtn:hover {
+      background-color: #388e3c;
+    }
+    #resetBtn {
+      background-color: #d32f2f;
+    }
+    #resetBtn:hover {
+      background-color: #a12727;
+    }
+  </style>
+</head>
+<body>
+
+  <div id="stopwatch">00:00:00.000</div>
+
+  <div class="buttons">
+    <button id="startStopBtn">Start</button>
+    <button id="resetBtn">Reset</button>
+  </div>
+
+  <script>
+    const display = document.getElementById('stopwatch');
+    const startStopBtn = document.getElementById('startStopBtn');
+    const resetBtn = document.getElementById('resetBtn');
+
+    let startTime = 0;
+    let elapsedTime = 0;
+    let timerInterval = null;
+    let running = false;
+
+    function timeToString(time) {
+      let diffInHrs = time / 3600000;
+      let hh = Math.floor(diffInHrs);
+
+      let diffInMin = (diffInHrs - hh) * 60;
+      let mm = Math.floor(diffInMin);
+
+      let diffInSec = (diffInMin - mm) * 60;
+      let ss = Math.floor(diffInSec);
+
+      let diffInMs = (diffInSec - ss) * 1000;
+      let ms = Math.floor(diffInMs);
+
+      const formattedHH = hh.toString().padStart(2, '0');
+      const formattedMM = mm.toString().padStart(2, '0');
+      const formattedSS = ss.toString().padStart(2, '0');
+      const formattedMS = ms.toString().padStart(3, '0');
+
+      return `${formattedHH}:${formattedMM}:${formattedSS}.${formattedMS}`;
+    }
+
+    function start() {
+      startTime = Date.now() - elapsedTime;
+      timerInterval = setInterval(() => {
+        elapsedTime = Date.now() - startTime;
+        display.textContent = timeToString(elapsedTime);
+      }, 10);
+      running = true;
+      startStopBtn.textContent = 'Stop';
+    }
+
+    function stop() {
+      clearInterval(timerInterval);
+      running = false;
+      startStopBtn.textContent = 'Start';
+    }
+
+    startStopBtn.addEventListener('click', () => {
+      if (!running) {
+        start();
+      } else {
+        stop();
+      }
+    });
+
+    resetBtn.addEventListener('click', () => {
+      stop();
+      elapsedTime = 0;
+      display.textContent = '00:00:00.000';
+    });
+  </script>
+
+</body>
+</html>

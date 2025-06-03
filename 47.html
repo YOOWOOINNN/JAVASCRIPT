@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <title>Konverter Mata Uang</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+        }
+        input, select {
+            margin: 10px 0;
+            padding: 5px;
+        }
+    </style>
+</head>
+<body>
+    <h2>Konverter Mata Uang</h2>
+
+    <label for="amount">Jumlah:</label><br>
+    <input type="number" id="amount" placeholder="Masukkan jumlah"><br>
+
+    <label for="fromCurrency">Dari:</label><br>
+    <select id="fromCurrency">
+        <option value="IDR">IDR (Rupiah)</option>
+        <option value="USD">USD (Dolar)</option>
+        <option value="EUR">EUR (Euro)</option>
+    </select><br>
+
+    <label for="toCurrency">Ke:</label><br>
+    <select id="toCurrency">
+        <option value="USD">USD (Dolar)</option>
+        <option value="IDR">IDR (Rupiah)</option>
+        <option value="EUR">EUR (Euro)</option>
+    </select><br>
+
+    <button onclick="convertCurrency()">Konversi</button>
+
+    <h3>Hasil: <span id="result">-</span></h3>
+
+    <script>
+        const exchangeRates = {
+            IDR: { USD: 0.000065, EUR: 0.000060 },
+            USD: { IDR: 15500, EUR: 0.92 },
+            EUR: { IDR: 16500, USD: 1.09 }
+        };
+
+        function convertCurrency() {
+            const amount = parseFloat(document.getElementById("amount").value);
+            const from = document.getElementById("fromCurrency").value;
+            const to = document.getElementById("toCurrency").value;
+
+            if (from === to) {
+                document.getElementById("result").textContent = amount.toFixed(2);
+                return;
+            }
+
+            const rate = exchangeRates[from][to];
+            if (rate) {
+                const result = amount * rate;
+                document.getElementById("result").textContent = result.toFixed(2);
+            } else {
+                document.getElementById("result").textContent = "Kurs tidak tersedia";
+            }
+        }
+    </script>
+</body>
+</html>

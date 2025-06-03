@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Palindrome Checker</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f2f2f2;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+    .container {
+      background: white;
+      padding: 30px;
+      border-radius: 10px;
+      box-shadow: 0 0 15px rgba(0,0,0,0.1);
+      text-align: center;
+      width: 90%;
+      max-width: 400px;
+    }
+    input[type="text"] {
+      width: 100%;
+      padding: 12px;
+      font-size: 16px;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+    }
+    button {
+      margin-top: 15px;
+      padding: 10px 20px;
+      font-size: 16px;
+      background: #007bff;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+    button:hover {
+      background: #0056b3;
+    }
+    .result {
+      margin-top: 20px;
+      font-size: 1.2rem;
+      font-weight: bold;
+    }
+    .yes {
+      color: green;
+    }
+    .no {
+      color: red;
+    }
+  </style>
+</head>
+<body>
+
+<div class="container">
+  <h2>🔁 Palindrome Checker</h2>
+  <input type="text" id="inputText" placeholder="Masukkan kata atau kalimat..." />
+  <button onclick="checkPalindrome()">Cek</button>
+  <div class="result" id="resultText">—</div>
+</div>
+
+<script>
+  function cleanText(text) {
+    return text.toLowerCase().replace(/[^a-z0-9]/g, '');
+  }
+
+  function checkPalindrome() {
+    const input = document.getElementById('inputText').value;
+    const cleaned = cleanText(input);
+    const reversed = cleaned.split('').reverse().join('');
+    const result = document.getElementById('resultText');
+
+    if (!cleaned) {
+      result.textContent = 'Silakan masukkan teks terlebih dahulu.';
+      result.className = 'result';
+      return;
+    }
+
+    if (cleaned === reversed) {
+      result.textContent = `"${input}" adalah palindrome ✅`;
+      result.className = 'result yes';
+    } else {
+      result.textContent = `"${input}" bukan palindrome ❌`;
+      result.className = 'result no';
+    }
+  }
+</script>
+
+</body>
+</html>

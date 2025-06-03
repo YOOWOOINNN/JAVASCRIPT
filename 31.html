@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Detective Conan Visual Story</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Roboto+Slab:wght@700&family=PT+Serif&display=swap');
+
+  body {
+    margin: 0;
+    background: #f5f5f5;
+    font-family: 'PT Serif', serif;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    height: 100vh;
+    overflow: hidden;
+  }
+  header {
+    background: #0e3a5f;
+    color: white;
+    width: 100%;
+    padding: 1rem;
+    text-align: center;
+    font-family: 'Roboto Slab', serif;
+    font-size: 2rem;
+    letter-spacing: 3px;
+    text-shadow: 2px 2px 2px #00000080;
+  }
+  main {
+    background: white;
+    margin: 1rem auto;
+    width: 90%;
+    max-width: 700px;
+    height: 75vh;
+    box-shadow: 0 6px 20px rgba(0,0,0,0.2);
+    border-radius: 8px;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+  }
+  .page {
+    flex-grow: 1;
+    padding: 1rem 2rem;
+    overflow-y: auto;
+    font-size: 1.1rem;
+    line-height: 1.5;
+    color: #222;
+    user-select: none;
+    position: relative;
+  }
+  .page h2 {
+    font-family: 'Roboto Slab', serif;
+    font-size: 1.5rem;
+    margin-bottom: 0.5rem;
+    text-align: center;
+    letter-spacing: 2px;
+    color: #0e3a5f;
+  }
+  .manga-panel {
+    margin: 1rem auto;
+    border: 2px solid #0e3a5f;
+    border-radius: 6px;
+    padding: 1rem;
+    background: #fafafa;
+    box-shadow: inset 3px 3px 8px #e0e0e0, inset -3px -3px 8px #ffffff;
+    font-style: italic;
+    white-space: pre-line;
+  }
+  nav {
+    background: #0e3a5f;
+    display: flex;
+    justify-content: space-between;
+    padding: 0.5rem 2rem;
+  }
+  nav button {
+    background: #145a93;
+    border: none;
+    color: white;
+    font-family: 'Roboto Slab', serif;
+    font-size: 1rem;
+    padding: 0.5rem 1.2rem;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    user-select: none;
+  }
+  nav button:disabled {
+    background: #8aa9c8;
+    cursor: default;
+  }
+  nav button:hover:not(:disabled) {
+    background: #0c427a;
+  }
+  footer {
+    color: #888;
+    font-size: 0.8rem;
+    margin-bottom: 1rem;
+    font-style: italic;
+  }
+
+  /* Manga Speech Bubble */
+  .speech-bubble {
+    position: relative;
+    background: #eee;
+    border-radius: 15px;
+    padding: 15px;
+    max-width: 90%;
+    margin: 1rem auto;
+    font-family: 'PT Serif', serif;
+    box-shadow: 3px 3px 7px #ccc;
+  }
+  .speech-bubble::before {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    left: 30px;
+    width: 0;
+    height: 0;
+    border: 20px solid transparent;
+    border-top-color: #eee;
+    border-bottom: 0;
+    margin-left: -10px;
+    margin-bottom: -20px;
+  }
+</style>
+</head>
+<body>
+<header>Detective Conan: Visual Story</header>
+<main>
+  <div id="page" class="page" aria-live="polite" aria-atomic="true"></div>
+  <nav aria-label="Page navigation">
+    <button id="prevBtn" aria-label="Previous page">← Prev</button>
+    <button id="nextBtn" aria-label="Next page">Next →</button>
+  </nav>
+</main>
+<footer>Inspired by Detective Conan Manga</footer>
+
+<script>
+  // Story pages data: mix of narration and "manga panels" with speech bubbles
+  const pages = [
+    {
+      title: "Chapter 1: The Mysterious Incident",
+      content: `
+      <div class="manga-panel">
+        <strong>Scene:</strong> A dark alley at night, rain pouring down.
+      </div>
+      <div class="speech-bubble">
+        "Someone's been following me..." - Conan
+      </div>
+      <p>Conan Edogawa cautiously walks down the narrow street, the soft patter of raindrops mixing with distant city sounds.</p>
+      <p>Suddenly, a shadow darts behind a corner. Conan quickens his pace.</p>
+      `
+    },
+    {
+      title: "Chapter 2: The Sudden Crime",
+      content: `
+      <div class="manga-panel">
+        <strong>Scene:</strong> Outside the magician Kaito Kid's performance hall.
+      </div>
+      <div class="speech-bubble">
+        "This is no ordinary theft. It's a challenge... from Kaito Kid!" - Ran
+      </div>
+      <p>Amid cheers and gasps, Conan spots the magician disappearing into smoke. The stolen jewel is gone!</p>
+      <p>Determined to solve the case, Conan starts examining the clues left behind.</p>
+      `
+    },
+    {
+      title: "Chapter 3: The Deduction",
+      content: `
+      <p>In the quiet detective agency, Conan pieces together the puzzle.</p>
+      <div class="speech-bubble" style="max-width:70%; margin-left:auto;">
+        "Look closely at the shadows and reflections... the thief left a trace here." - Conan
+      </div>
+      <p>With sharp eyes and brilliant deduction, he narrows down the suspects.</p>
+      `
+    },
+    {
+      title: "Chapter 4: The Confrontation",
+      content: `
+      <div class="manga-panel">
+        <strong>Scene:</strong> Rooftop at sunset.
+      </div>
+      <div class="speech-bubble">
+        "I've been caught... But who really is the mastermind?" - Kaito Kid
+      </div>
+      <p>Conan corners the thief, but a shadowy figure watches from afar.</p>
+      <p>The mystery deepens...</p>
+      `
+    },
+    {
+      title: "Epilogue",
+      content: `
+      <p>Every case solved brings Conan closer to the truth behind his own condition.</p>
+      <p>The journey continues with even more thrilling adventures.</p>
+      <div class="speech-bubble" style="font-weight:bold; color:#0e3a5f;">
+        "Detective work never ends." - Conan
+      </div>
+      `
+    }
+  ];
+
+  const pageEl = document.getElementById('page');
+  const prevBtn = document.getElementById('prevBtn');
+  const nextBtn = document.getElementById('nextBtn');
+  let currentPage = 0;
+
+  function renderPage(index) {
+    const page = pages[index];
+    pageEl.innerHTML = '<h2>' + page.title + '</h2>' + page.content;
+    prevBtn.disabled = index === 0;
+    nextBtn.disabled = index === pages.length -1;
+  }
+
+  prevBtn.addEventListener('click', () => {
+    if(currentPage > 0) {
+      currentPage--;
+      renderPage(currentPage);
+    }
+  });
+
+  nextBtn.addEventListener('click', () => {
+    if(currentPage < pages.length -1) {
+      currentPage++;
+      renderPage(currentPage);
+    }
+  });
+
+  // Initial render
+  renderPage(currentPage);
+</script>
+</body>
+</html>
+

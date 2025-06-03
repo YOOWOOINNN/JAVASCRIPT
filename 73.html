@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Penerjemah Multi-bahasa</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 40px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    textarea {
+      width: 400px;
+      height: 100px;
+      padding: 10px;
+      font-size: 16px;
+      margin-bottom: 10px;
+      resize: none;
+    }
+
+    select, button {
+      padding: 8px;
+      font-size: 16px;
+      margin: 5px;
+    }
+
+    #result {
+      margin-top: 20px;
+      font-size: 18px;
+      padding: 10px;
+      border: 1px solid #ccc;
+      width: 400px;
+      background: #f9f9f9;
+      min-height: 60px;
+    }
+  </style>
+</head>
+<body>
+
+  <h2>Alat Penerjemah Multi-bahasa</h2>
+
+  <textarea id="inputText" placeholder="Ketik teks yang ingin diterjemahkan..."></textarea>
+
+  <div>
+    <label for="languageSelect">Pilih Bahasa:</label>
+    <select id="languageSelect">
+      <option value="en">Inggris</option>
+      <option value="id">Indonesia</option>
+      <option value="es">Spanyol</option>
+      <option value="fr">Prancis</option>
+    </select>
+    <button onclick="translateText()">Terjemahkan</button>
+  </div>
+
+  <div id="result">Terjemahan akan muncul di sini...</div>
+
+  <script>
+    const dictionary = {
+      "hello": {
+        "en": "Hello",
+        "id": "Halo",
+        "es": "Hola",
+        "fr": "Bonjour"
+      },
+      "how are you": {
+        "en": "How are you?",
+        "id": "Apa kabar?",
+        "es": "¿Cómo estás?",
+        "fr": "Comment ça va ?"
+      },
+      "thank you": {
+        "en": "Thank you",
+        "id": "Terima kasih",
+        "es": "Gracias",
+        "fr": "Merci"
+      },
+      "good morning": {
+        "en": "Good morning",
+        "id": "Selamat pagi",
+        "es": "Buenos días",
+        "fr": "Bonjour"
+      }
+    };
+
+    function translateText() {
+      const input = document.getElementById("inputText").value.toLowerCase().trim();
+      const lang = document.getElementById("languageSelect").value;
+      const resultBox = document.getElementById("result");
+
+      if (dictionary[input] && dictionary[input][lang]) {
+        resultBox.textContent = dictionary[input][lang];
+      } else {
+        resultBox.textContent = "Terjemahan tidak ditemukan.";
+      }
+    }
+  </script>
+
+</body>
+</html>

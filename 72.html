@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Papan Pengumuman</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f0f0f0;
+      padding: 30px;
+      display: flex;
+      justify-content: center;
+    }
+
+    .board {
+      background: #fff8dc;
+      border: 4px solid #8b4513;
+      border-radius: 10px;
+      padding: 20px;
+      width: 500px;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+    }
+
+    h2 {
+      text-align: center;
+      color: #8b4513;
+    }
+
+    .announcement-list {
+      list-style: none;
+      padding: 0;
+    }
+
+    .announcement-item {
+      background: #ffffff;
+      border-left: 5px solid #ffa500;
+      margin: 10px 0;
+      padding: 10px;
+      border-radius: 4px;
+    }
+
+    .announcement-item time {
+      font-size: 12px;
+      color: #666;
+    }
+
+    #addForm {
+      margin-top: 20px;
+      display: flex;
+      flex-direction: column;
+    }
+
+    #addForm textarea {
+      resize: none;
+      padding: 10px;
+      font-size: 14px;
+      margin-bottom: 10px;
+      border-radius: 5px;
+    }
+
+    #addForm button {
+      padding: 8px 12px;
+      font-size: 14px;
+      background-color: #8b4513;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    #addForm button:hover {
+      background-color: #a0522d;
+    }
+  </style>
+</head>
+<body>
+
+<div class="board">
+  <h2>Papan Pengumuman</h2>
+  <ul class="announcement-list" id="announcementList">
+    <li class="announcement-item">
+      <strong>Selamat datang di papan pengumuman!</strong><br>
+      <time>03 Juni 2025</time>
+    </li>
+  </ul>
+
+  <form id="addForm">
+    <textarea id="announcementInput" rows="3" placeholder="Tulis pengumuman baru..."></textarea>
+    <button type="submit">Tambah Pengumuman</button>
+  </form>
+</div>
+
+<script>
+  const form = document.getElementById('addForm');
+  const input = document.getElementById('announcementInput');
+  const list = document.getElementById('announcementList');
+
+  form.addEventListener('submit', function(e) {
+    e.preventDefault();
+    const text = input.value.trim();
+    if (text !== '') {
+      const li = document.createElement('li');
+      li.className = 'announcement-item';
+      const time = new Date().toLocaleDateString('id-ID', {
+        year: 'numeric',
+        month: 'long',
+        day: 'numeric'
+      });
+      li.innerHTML = `<strong>${text}</strong><br><time>${time}</time>`;
+      list.prepend(li);
+      input.value = '';
+    }
+  });
+</script>
+
+</body>
+</html>

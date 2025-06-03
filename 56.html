@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <title>Scroll to Top</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      height: 2000px; /* untuk demo scroll */
+      padding: 20px;
+    }
+
+    #scrollTopBtn {
+      position: fixed;
+      bottom: 30px;
+      right: 30px;
+      display: none;
+      background-color: #007bff;
+      color: white;
+      border: none;
+      padding: 12px 18px;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 16px;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.3);
+      transition: opacity 0.3s ease;
+    }
+
+    #scrollTopBtn:hover {
+      background-color: #0056b3;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>Contoh Scroll ke Atas</h1>
+  <p>Scroll ke bawah untuk melihat tombolnya muncul...</p>
+
+  <button id="scrollTopBtn" onclick="scrollToTop()">⬆️ Ke Atas</button>
+
+  <script>
+    const scrollTopBtn = document.getElementById("scrollTopBtn");
+
+    window.onscroll = function() {
+      if (document.body.scrollTop > 100 || document.documentElement.scrollTop > 100) {
+        scrollTopBtn.style.display = "block";
+      } else {
+        scrollTopBtn.style.display = "none";
+      }
+    };
+
+    function scrollToTop() {
+      window.scrollTo({
+        top: 0,
+        behavior: 'smooth'
+      });
+    }
+  </script>
+
+</body>
+</html>

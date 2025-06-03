@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Tanggal & Waktu Sekarang</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background: #f0f0f0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+    .clock-container {
+      background: white;
+      padding: 30px 50px;
+      border-radius: 10px;
+      box-shadow: 0 0 15px rgba(0,0,0,0.1);
+      text-align: center;
+    }
+    .date {
+      font-size: 1.5rem;
+      margin-bottom: 10px;
+      color: #555;
+    }
+    .time {
+      font-size: 2.5rem;
+      color: #333;
+      font-weight: bold;
+      letter-spacing: 2px;
+    }
+  </style>
+</head>
+<body>
+
+<div class="clock-container">
+  <div class="date" id="currentDate">Memuat...</div>
+  <div class="time" id="currentTime">00:00:00</div>
+</div>
+
+<script>
+  function updateClock() {
+    const now = new Date();
+
+    const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+    const dateStr = now.toLocaleDateString('id-ID', options);
+
+    const hours = now.getHours().toString().padStart(2, '0');
+    const minutes = now.getMinutes().toString().padStart(2, '0');
+    const seconds = now.getSeconds().toString().padStart(2, '0');
+    const timeStr = `${hours}:${minutes}:${seconds}`;
+
+    document.getElementById('currentDate').textContent = dateStr;
+    document.getElementById('currentTime').textContent = timeStr;
+  }
+
+  setInterval(updateClock, 1000);
+  updateClock(); // jalankan pertama kali
+</script>
+
+</body>
+</html>

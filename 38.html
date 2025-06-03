@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Teka-Teki Tebak Hewan</title>
+    <style>
+        body {
+            background-color: #292b2f;
+            color: #fff;
+            font-family: 'Montserrat', sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+            text-align: center;
+        }
+
+        h1 {
+            color: #e494ee;
+            margin-bottom: 20px;
+            text-shadow: 0 0 10px #d8abe8;
+        }
+
+        input[type="text"] {
+            padding: 10px;
+            font-size: 16px;
+            border: none;
+            border-radius: 5px;
+            margin-bottom: 10px;
+            width: 200px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+        }
+
+        button {
+            padding: 10px 20px;
+            font-size: 16px;
+            background-color: #c935bf;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s, transform 0.2s;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+        }
+
+        button:hover {
+            background-color: #d58adc;
+            transform: scale(1.05);
+        }
+
+        #message {
+            margin-top: 20px;
+            font-size: 24px;
+            color: #91368e;
+            transition: opacity 0.5s;
+        }
+
+        #message.hidden {
+            opacity: 0;
+        }
+
+        #hint {
+            margin: 20px 0;
+            font-size: 18px;
+            color: #fff;
+        }
+    </style>
+</head>
+<body>
+    <h1>Teka-Teki Tebak Hewan</h1>
+    <div id="hint">Saya adalah hewan yang memiliki ekor panjang dan suka melompat. Apa saya?</div>
+    <input type="text" id="guessInput" placeholder="Tebak nama hewan" />
+    <button id="guessBtn">Tebak</button>
+    <div id="message" class="hidden"></div>
+
+    <script>
+        const correctAnswer = "Kelinci"; // Jawaban yang benar
+        const messageElement = document.getElementById('message');
+        const guessInput = document.getElementById('guessInput');
+        const guessBtn = document.getElementById('guessBtn');
+
+        guessBtn.addEventListener('click', () => {
+            const userGuess = guessInput.value.trim();
+            messageElement.classList.remove('hidden'); // Tampilkan pesan
+
+            if (userGuess.toLowerCase() === correctAnswer.toLowerCase()) {
+                messageElement.textContent = 'Selamat! Anda menebak hewan yang benar!';
+            } else {
+                messageElement.textContent = 'Tebakan salah! Coba lagi.';
+            }
+        });
+    </script>
+</body>
+</html>

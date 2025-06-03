@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <title>Permainan Tebak Warna</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #222;
+      color: white;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 40px 20px;
+      min-height: 100vh;
+    }
+    h1 {
+      margin-bottom: 20px;
+    }
+    #colorBox {
+      width: 200px;
+      height: 200px;
+      border-radius: 15px;
+      margin-bottom: 25px;
+      box-shadow: 0 0 20px rgba(255,255,255,0.2);
+    }
+    .buttons {
+      display: flex;
+      gap: 15px;
+      flex-wrap: wrap;
+      justify-content: center;
+      margin-bottom: 20px;
+      max-width: 400px;
+    }
+    button.color-btn {
+      padding: 12px 20px;
+      font-size: 16px;
+      border-radius: 8px;
+      border: none;
+      cursor: pointer;
+      font-weight: bold;
+      transition: background-color 0.3s;
+      color: white;
+      min-width: 90px;
+    }
+    button.color-btn:hover {
+      opacity: 0.8;
+    }
+    #message {
+      font-size: 20px;
+      margin-bottom: 20px;
+      height: 28px;
+      min-width: 240px;
+      text-align: center;
+    }
+    #score {
+      font-size: 18px;
+      margin-bottom: 30px;
+    }
+    #resetBtn {
+      padding: 10px 30px;
+      font-size: 16px;
+      border: none;
+      background-color: #4caf50;
+      border-radius: 8px;
+      cursor: pointer;
+      color: white;
+      transition: background-color 0.3s;
+    }
+    #resetBtn:hover {
+      background-color: #388e3c;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>Permainan Tebak Warna</h1>
+  <div id="colorBox"></div>
+
+  <div class="buttons" id="buttonsContainer"></div>
+
+  <div id="message"></div>
+  <div id="score">Skor: 0</div>
+
+  <button id="resetBtn">Warna Baru</button>
+
+  <script>
+    const colors = [
+      {name: 'Merah', code: '#e74c3c'},
+      {name: 'Hijau', code: '#27ae60'},
+      {name: 'Biru', code: '#2980b9'},
+      {name: 'Kuning', code: '#f1c40f'},
+      {name: 'Ungu', code: '#8e44ad'},
+      {name: 'Jingga', code: '#e67e22'},
+      {name: 'Cyan', code: '#1abc9c'},
+      {name: 'Pink', code: '#fd79a8'},
+      {name: 'Abu-Abu', code: '#7f8c8d'},
+      {name: 'Hitam', code: '#2d3436'}
+    ];
+
+    let score = 0;
+    let correctColor = null;
+
+    const colorBox = document.getElementById('colorBox');
+    const buttonsContainer = document.getElementById('buttonsContainer');
+    const message = document.getElementById('message');
+    const scoreDisplay = document.getElementById('score');
+    const resetBtn = document.getElementById('resetBtn');
+
+    function shuffleArray(arr) {
+      for(let i = arr.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [arr[i], arr[j]] = [arr[j], arr[i]];
+      }
+      return arr;
+    }
+
+    function setupGame() {
+      message.textContent = '';
+      buttonsContainer.innerHTML = '';
+
+      // Pilih warna target secara acak
+      const shuffledColors = shuffleArray(colors.slice());
+      correctColor = shuffledColors[0];
+
+      // Set warna kotak warna
+      colorBox.style.backgroundColor = correctColor.code;
+
+      // Ambil 4 warna pilihan (termasuk yg benar)
+      const options = shuffledColors.slice(0, 4);
+      // Pastikan benar termasuk
+      if (!options.includes(correctColor)) {
+        options[0] = correctColor;
+      }
+
+      shuffleArray(options);
+
+      // Buat tombol pilihan warna
+      options.forEach(c => {
+        const btn = document.createElement('button');
+        btn.classList.add('color-btn');
+        btn.textContent = c.name;
+        btn.style.backgroundColor = c.code;
+        btn.onclick = () => checkAnswer(c.name);
+        buttonsContainer.appendChild(btn);
+      });
+    }
+
+    function checkAnswer(selected) {
+      if (selected === correctColor.name) {
+        message.textContent = 'Benar! 🎉';
+        score++;
+        scoreDisplay.textContent = `Skor: ${score}`;
+        setTimeout(setupGame, 1500);
+      } else {
+        message.textContent = 'Salah! Coba lagi.';
+        score = 0;
+        scoreDisplay.textContent = `Skor: ${score}`;
+      }
+    }
+
+    resetBtn.onclick = () => {
+      score = 0;
+      scoreDisplay.textContent = `Skor: ${score}`;
+      setupGame();
+      message.textContent = '';
+    };
+
+    // Mulai permainan pertama kali
+    setupGame();
+  </script>
+
+</body>
+</html>

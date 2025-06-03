@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <title>Drag and Drop</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      padding: 40px;
+      background: #f0f0f0;
+      display: flex;
+      justify-content: center;
+      gap: 50px;
+      flex-wrap: wrap;
+    }
+    .draggable {
+      width: 120px;
+      height: 120px;
+      background-color: #4caf50;
+      color: white;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 18px;
+      border-radius: 12px;
+      cursor: grab;
+      user-select: none;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+    }
+    .draggable:active {
+      cursor: grabbing;
+    }
+    .dropzone {
+      width: 160px;
+      height: 160px;
+      border: 3px dashed #999;
+      border-radius: 16px;
+      background-color: white;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 18px;
+      color: #666;
+      transition: background-color 0.3s, border-color 0.3s;
+    }
+    .dropzone.dragover {
+      background-color: #d1ffd6;
+      border-color: #4caf50;
+      color: #2e7d32;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="draggable" draggable="true" id="dragItem">Seret Saya</div>
+
+  <div class="dropzone" id="dropZone">Letakkan di sini</div>
+
+  <script>
+    const dragItem = document.getElementById('dragItem');
+    const dropZone = document.getElementById('dropZone');
+
+    // Saat mulai drag
+    dragItem.addEventListener('dragstart', (e) => {
+      e.dataTransfer.setData('text/plain', dragItem.id);
+      setTimeout(() => {
+        dragItem.style.display = 'none';
+      }, 0);
+    });
+
+    // Saat drag selesai (terlepas)
+    dragItem.addEventListener('dragend', () => {
+      dragItem.style.display = 'flex';
+    });
+
+    // Dragover harus dicegah agar drop bisa terjadi
+    dropZone.addEventListener('dragover', (e) => {
+      e.preventDefault();
+      dropZone.classList.add('dragover');
+    });
+
+    dropZone.addEventListener('dragleave', () => {
+      dropZone.classList.remove('dragover');
+    });
+
+    // Saat drop
+    dropZone.addEventListener('drop', (e) => {
+      e.preventDefault();
+      dropZone.classList.remove('dragover');
+
+      const id = e.dataTransfer.getData('text/plain');
+      const draggableElement = document.getElementById(id);
+
+      dropZone.appendChild(draggableElement);
+      draggableElement.style.display = 'flex';
+    });
+  </script>
+
+</body>
+</html>

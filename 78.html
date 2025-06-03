@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <title>Avatar Pengguna Acak</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+      padding: 40px;
+      background: #f0f0f0;
+    }
+    #avatar {
+      width: 150px;
+      height: 150px;
+      border-radius: 50%;
+      border: 3px solid #555;
+      margin-bottom: 20px;
+      object-fit: cover;
+    }
+    button {
+      padding: 10px 20px;
+      font-size: 16px;
+      cursor: pointer;
+      border: none;
+      background-color: #4CAF50;
+      color: white;
+      border-radius: 5px;
+      transition: background-color 0.3s ease;
+    }
+    button:hover {
+      background-color: #45a049;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>Avatar Pengguna Acak</h1>
+  <img id="avatar" src="" alt="Avatar Pengguna" />
+  <br />
+  <button onclick="generateAvatar()">Generate Avatar</button>
+
+  <script>
+    function generateAvatar() {
+      // Buat string acak untuk seed
+      const seed = Math.random().toString(36).substring(2, 10);
+      // URL Avatar dari DiceBear (contoh: "identicon" style)
+      const avatarUrl = `https://avatars.dicebear.com/api/identicon/${seed}.svg`;
+      // Tampilkan avatar
+      document.getElementById('avatar').src = avatarUrl;
+    }
+
+    // Generate avatar pertama saat halaman dimuat
+    window.onload = generateAvatar;
+  </script>
+
+</body>
+</html>

@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <title>Buku Harian</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+            max-width: 700px;
+            margin: auto;
+            background-color: #f4f4f4;
+        }
+        textarea {
+            width: 100%;
+            height: 150px;
+            padding: 10px;
+            font-size: 16px;
+        }
+        input, button {
+            padding: 10px;
+            font-size: 16px;
+            margin-top: 10px;
+        }
+        .entry {
+            background: white;
+            margin-top: 15px;
+            padding: 15px;
+            border-left: 5px solid #007BFF;
+        }
+        .entry small {
+            display: block;
+            color: #666;
+        }
+        .entry button {
+            float: right;
+            background-color: red;
+            color: white;
+            border: none;
+            margin-top: 10px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+
+    <h2>📖 Buku Harian Digital</h2>
+
+    <input type="date" id="entryDate"><br>
+    <textarea id="entryText" placeholder="Tulis catatan harianmu di sini..."></textarea><br>
+    <button onclick="simpanEntri()">Simpan Entri</button>
+
+    <h3>📚 Entri Sebelumnya:</h3>
+    <div id="daftarEntri"></div>
+
+    <script>
+        function simpanEntri() {
+            const tanggal = document.getElementById("entryDate").value;
+            const teks = document.getElementById("entryText").value.trim();
+
+            if (!tanggal || !teks) {
+                alert("Tanggal dan isi catatan harus diisi.");
+                return;
+            }
+
+            const entri = {
+                tanggal: tanggal,
+                isi: teks
+            };
+
+            let semuaEntri = JSON.parse(localStorage.getItem("bukuHarian")) || [];
+            semuaEntri.push(entri);
+            localStorage.setItem("bukuHarian", JSON.stringify(semuaEntri));
+
+            document.getElementById("entryText").value = "";
+            tampilkanEntri();
+        }
+
+        function tampilkanEntri() {
+            const daftar = document.getElementById("daftarEntri");
+            daftar.innerHTML = "";
+
+            let semuaEntri = JSON.parse(localStorage.getItem("bukuHarian")) || [];
+
+            semuaEntri.reverse().forEach((entri, index) => {
+                const div = document.createElement("div");
+                div.className = "entry";
+                div.innerHTML = `
+                    <strong>${entri.tanggal}</strong>
+                    <small>${entri.isi.replace(/\n/g, "<br>")}</small>
+                    <button onclick="hapusEntri(${semuaEntri.length - 1 - index})">Hapus</button>
+                `;
+                daftar.appendChild(div);
+            });
+        }
+
+        function hapusEntri(index) {
+            let semuaEntri = JSON.parse(localStorage.getItem("bukuHarian")) || [];
+            semuaEntri.splice(index, 1);
+            localStorage.setItem("bukuHarian", JSON.stringify(semuaEntri));
+            tampilkanEntri();
+        }
+
+        // Tampilkan entri saat halaman dimuat
+        tampilkanEntri();
+    </script>
+
+</body>
+</html>

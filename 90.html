@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <title>Formulir Validasi</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f9fafb;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+    }
+    form {
+      background: white;
+      padding: 30px 40px;
+      border-radius: 10px;
+      box-shadow: 0 6px 15px rgba(0,0,0,0.1);
+      max-width: 400px;
+      width: 100%;
+    }
+    h2 {
+      text-align: center;
+      margin-bottom: 25px;
+      color: #333;
+    }
+    label {
+      display: block;
+      margin-bottom: 6px;
+      font-weight: bold;
+      color: #555;
+    }
+    input[type="text"],
+    input[type="email"],
+    input[type="password"] {
+      width: 100%;
+      padding: 12px 14px;
+      margin-bottom: 8px;
+      border: 2px solid #ddd;
+      border-radius: 8px;
+      font-size: 16px;
+      transition: border-color 0.3s;
+      box-sizing: border-box;
+    }
+    input[type="text"]:focus,
+    input[type="email"]:focus,
+    input[type="password"]:focus {
+      border-color: #4caf50;
+      outline: none;
+    }
+    .error-message {
+      color: #d32f2f;
+      font-size: 14px;
+      margin-bottom: 12px;
+      min-height: 18px;
+    }
+    button {
+      width: 100%;
+      padding: 14px;
+      background-color: #4caf50;
+      color: white;
+      font-size: 18px;
+      font-weight: bold;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background-color 0.3s;
+      margin-top: 10px;
+    }
+    button:disabled {
+      background-color: #9e9e9e;
+      cursor: not-allowed;
+    }
+  </style>
+</head>
+<body>
+
+  <form id="registrationForm" novalidate>
+    <h2>Daftar Akun</h2>
+
+    <label for="name">Nama Lengkap</label>
+    <input type="text" id="name" name="name" placeholder="Masukkan nama lengkap" />
+    <div class="error-message" id="nameError"></div>
+
+    <label for="email">Email</label>
+    <input type="email" id="email" name="email" placeholder="contoh@email.com" />
+    <div class="error-message" id="emailError"></div>
+
+    <label for="password">Password</label>
+    <input type="password" id="password" name="password" placeholder="Minimal 6 karakter" />
+    <div class="error-message" id="passwordError"></div>
+
+    <label for="confirmPassword">Konfirmasi Password</label>
+    <input type="password" id="confirmPassword" name="confirmPassword" placeholder="Masukkan ulang password" />
+    <div class="error-message" id="confirmPasswordError"></div>
+
+    <button type="submit" id="submitBtn" disabled>Daftar</button>
+  </form>
+
+  <script>
+    const form = document.getElementById('registrationForm');
+    const nameInput = document.getElementById('name');
+    const emailInput = document.getElementById('email');
+    const passwordInput = document.getElementById('password');
+    const confirmPasswordInput = document.getElementById('confirmPassword');
+    const submitBtn = document.getElementById('submitBtn');
+
+    const nameError = document.getElementById('nameError');
+    const emailError = document.getElementById('emailError');
+    const passwordError = document.getElementById('passwordError');
+    const confirmPasswordError = document.getElementById('confirmPasswordError');
+
+    function validateName() {
+      const name = nameInput.value.trim();
+      if (name.length < 3) {
+        nameError.textContent = 'Nama harus minimal 3 karakter.';
+        return false;
+      } else {
+        nameError.textContent = '';
+        return true;
+      }
+    }
+
+    function validateEmail() {
+      const email = emailInput.value.trim();
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      if (!emailRegex.test(email)) {
+        emailError.textContent = 'Format email tidak valid.';
+        return false;
+      } else {
+        emailError.textContent = '';
+        return true;
+      }
+    }
+
+    function validatePassword() {
+      const pwd = passwordInput.value;
+      if (pwd.length < 6) {
+        passwordError.textContent = 'Password minimal 6 karakter.';
+        return false;
+      } else {
+        passwordError.textContent = '';
+        return true;
+      }
+    }
+
+    function validateConfirmPassword() {
+      if (confirmPasswordInput.value !== passwordInput.value) {
+        confirmPasswordError.textContent = 'Password tidak sama.';
+        return false;
+      } else {
+        confirmPasswordError.textContent = '';
+        return true;
+      }
+    }
+
+    function validateForm() {
+      const isValid = validateName() && validateEmail() && validatePassword() && validateConfirmPassword();
+      submitBtn.disabled = !isValid;
+      return isValid;
+    }
+
+    nameInput.addEventListener('input', validateForm);
+    emailInput.addEventListener('input', validateForm);
+    passwordInput.addEventListener('input', validateForm);
+    confirmPasswordInput.addEventListener('input', validateForm);
+
+    form.addEventListener('submit', (e) => {
+      e.preventDefault();
+      if (validateForm()) {
+        alert('Form berhasil dikirim!');
+        form.reset();
+        submitBtn.disabled = true;
+      }
+    });
+  </script>
+
+</body>
+</html>

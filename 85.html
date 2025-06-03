@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <title>Wizard Form</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f0f0f0;
+      display: flex;
+      justify-content: center;
+      padding: 40px 20px;
+    }
+    .wizard-form {
+      background: white;
+      padding: 30px 40px;
+      border-radius: 10px;
+      max-width: 400px;
+      width: 100%;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+    }
+    .step {
+      display: none;
+    }
+    .step.active {
+      display: block;
+    }
+    .buttons {
+      margin-top: 20px;
+      display: flex;
+      justify-content: space-between;
+    }
+    button {
+      padding: 10px 20px;
+      border: none;
+      background: #4caf50;
+      color: white;
+      font-weight: bold;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: background-color 0.3s;
+    }
+    button:disabled {
+      background: #a5d6a7;
+      cursor: default;
+    }
+    button:hover:not(:disabled) {
+      background: #388e3c;
+    }
+    .stepper {
+      display: flex;
+      justify-content: center;
+      margin-bottom: 25px;
+      gap: 10px;
+    }
+    .stepper div {
+      width: 25px;
+      height: 25px;
+      border-radius: 50%;
+      background: #ccc;
+      line-height: 25px;
+      text-align: center;
+      color: white;
+      font-weight: bold;
+      user-select: none;
+    }
+    .stepper div.active {
+      background: #4caf50;
+    }
+    label {
+      display: block;
+      margin-bottom: 6px;
+      font-weight: 600;
+      color: #333;
+    }
+    input[type="text"], input[type="email"], input[type="number"] {
+      width: 100%;
+      padding: 8px 12px;
+      margin-bottom: 15px;
+      border-radius: 5px;
+      border: 1.5px solid #ccc;
+      font-size: 14px;
+      transition: border-color 0.3s;
+    }
+    input[type="text"]:focus, input[type="email"]:focus, input[type="number"]:focus {
+      border-color: #4caf50;
+      outline: none;
+    }
+    .error {
+      color: #d32f2f;
+      font-size: 13px;
+      margin-top: -12px;
+      margin-bottom: 10px;
+    }
+  </style>
+</head>
+<body>
+
+  <form class="wizard-form" id="wizardForm" novalidate>
+    <div class="stepper">
+      <div class="step-indicator active">1</div>
+      <div class="step-indicator">2</div>
+      <div class="step-indicator">3</div>
+    </div>
+
+    <!-- Step 1 -->
+    <div class="step active">
+      <label for="name">Nama Lengkap</label>
+      <input type="text" id="name" name="name" placeholder="Masukkan nama lengkap" required />
+      <div class="error" id="error-name"></div>
+    </div>
+
+    <!-- Step 2 -->
+    <div class="step">
+      <label for="email">Email</label>
+      <input type="email" id="email" name="email" placeholder="Masukkan email" required />
+      <div class="error" id="error-email"></div>
+    </div>
+
+    <!-- Step 3 -->
+    <div class="step">
+      <label for="age">Usia</label>
+      <input type="number" id="age" name="age" placeholder="Masukkan usia" min="1" max="120" required />
+      <div class="error" id="error-age"></div>
+    </div>
+
+    <div class="buttons">
+      <button type="button" id="prevBtn" disabled>Previous</button>
+      <button type="button" id="nextBtn">Next</button>
+    </div>
+  </form>
+
+  <script>
+    const form = document.getElementById('wizardForm');
+    const steps = form.querySelectorAll('.step');
+    const indicators = form.querySelectorAll('.step-indicator');
+    const prevBtn = document.getElementById('prevBtn');
+    const nextBtn = document.getElementById('nextBtn');
+    let currentStep = 0;
+
+    function showStep(index) {
+      steps.forEach((step, i) => {
+        step.classList.toggle('active', i === index);
+        indicators[i].classList.toggle('active', i === index);
+      });
+      prevBtn.disabled = index === 0;
+      nextBtn.textContent = index === steps.length - 1 ? 'Submit' : 'Next';
+      clearErrors();
+    }
+
+    function clearErrors() {
+      form.querySelectorAll('.error').forEach(el => el.textContent = '');
+    }
+
+    function validateStep(index) {
+      clearErrors();
+      const step = steps[index];
+      let valid = true;
+
+      const inputs = step.querySelectorAll('input[required]');
+      inputs.forEach(input => {
+        if (!input.value.trim()) {
+          valid = false;
+          document.getElementById('error-' + input.name).textContent = 'wajib diisi.';
+        } else if (input.type === 'email') {
+          // Simple email validation
+          const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+          if (!emailPattern.test(input.value.trim())) {
+            valid = false;
+            document.getElementById('error-' + input.name).textContent = 'Format email tidak valid.';
+          }
+        } else if (input.type === 'number') {
+          const val = Number(input.value);
+          if (val < Number(input.min) || val > Number(input.max)) {
+            valid = false;
+            document.getElementById('error-' + input.name).textContent = `Nilai harus antara ${input.min} dan ${input.max}.`;
+          }
+        }
+      });
+
+      return valid;
+    }
+
+    nextBtn.addEventListener('click', () => {
+      if (!validateStep(currentStep)) return;
+
+      if (currentStep === steps.length - 1) {
+        // Submit form
+        alert('Form berhasil dikirim! Terima kasih.');
+        form.reset();
+        currentStep = 0;
+        showStep(currentStep);
+      } else {
+        currentStep++;
+        showStep(currentStep);
+      }
+    });
+
+    prevBtn.addEventListener('click', () => {
+      if (currentStep > 0) {
+        currentStep--;
+        showStep(currentStep);
+      }
+    });
+
+    // Tampilkan step pertama saat load
+    showStep(currentStep);
+  </script>
+
+</body>
+</html>

@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <title>Batu Gunting Kertas</title>
+  <style>
+    body {
+      font-family: 'Arial', sans-serif;
+      text-align: center;
+      margin-top: 50px;
+      background-color: #f0f0f0;
+      color: #333;
+    }
+    h1 {
+      color: #af4c82;
+    }
+    button {
+      padding: 15px 30px;
+      font-size: 18px;
+      margin: 10px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: background-color 0.3s;
+    }
+    button:hover {
+      background-color: #ddd;
+    }
+    #result {
+      margin-top: 30px;
+      font-size: 24px;
+      font-weight: bold;
+      padding: 20px;
+      border: 2px solid #4CAF50;
+      border-radius: 10px;
+      background-color: #fff;
+      display: inline-block;
+    }
+  </style>
+</head>
+<body>
+  <h1>Permainan Batu, Gunting, Kertas</h1>
+  <p>Pilih salah satu:</p>
+
+  <button onclick="play('batu')">🪨 Batu</button>
+  <button onclick="play('gunting')">✂️ Gunting</button>
+  <button onclick="play('kertas')">📄 Kertas</button>
+
+  <div id="result"></div>
+
+  <script>
+    function play(playerChoice) {
+      const choices = ['batu', 'gunting', 'kertas'];
+      const computerChoice = choices[Math.floor(Math.random() * 3)];
+
+      let result = '';
+
+      if (playerChoice === computerChoice) {
+        result = "Seri! Kamu dan komputer memilih " + playerChoice + ". Coba lagi!";
+      } else if (
+        (playerChoice === 'batu' && computerChoice === 'gunting') ||
+        (playerChoice === 'gunting' && computerChoice === 'kertas') ||
+        (playerChoice === 'kertas' && computerChoice === 'batu')
+      ) {
+        result = "Kamu MENANG! Komputer memilih " + computerChoice + ". Hebat!";
+      } else {
+        result = "Kamu KALAH! Komputer memilih " + computerChoice + ". Jangan menyerah!";
+      }
+
+      document.getElementById('result').textContent = result;
+    }
+  </script>
+</body>
+</html>

@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Light / Dark Theme Toggle</title>
+  <style>
+    :root {
+      --bg-light: #ffffff;
+      --text-light: #222222;
+      --bg-dark: #121212;
+      --text-dark: #f0f0f0;
+    }
+
+    body {
+      margin: 0;
+      padding: 2rem;
+      font-family: Arial, sans-serif;
+      background-color: var(--bg-light);
+      color: var(--text-light);
+      transition: background-color 0.3s, color 0.3s;
+    }
+
+    body.dark {
+      background-color: var(--bg-dark);
+      color: var(--text-dark);
+    }
+
+    .toggle-btn {
+      cursor: pointer;
+      padding: 10px 20px;
+      background-color: #007bff;
+      border: none;
+      border-radius: 5px;
+      color: white;
+      font-size: 16px;
+      transition: background-color 0.3s;
+    }
+
+    .toggle-btn:hover {
+      background-color: #0056b3;
+    }
+  </style>
+</head>
+<body>
+
+  <button class="toggle-btn" id="themeToggle">Switch to Dark Theme</button>
+
+  <h1>Contoh Light / Dark Theme Toggle</h1>
+  <p>Klik tombol di atas untuk mengganti tema.</p>
+
+  <script>
+    const toggleBtn = document.getElementById('themeToggle');
+    const body = document.body;
+
+    // Cek tema sebelumnya di localStorage
+    const savedTheme = localStorage.getItem('theme');
+
+    if (savedTheme === 'dark') {
+      body.classList.add('dark');
+      toggleBtn.textContent = 'Switch to Light Theme';
+    }
+
+    toggleBtn.addEventListener('click', () => {
+      body.classList.toggle('dark');
+      if (body.classList.contains('dark')) {
+        toggleBtn.textContent = 'Switch to Light Theme';
+        localStorage.setItem('theme', 'dark');
+      } else {
+        toggleBtn.textContent = 'Switch to Dark Theme';
+        localStorage.setItem('theme', 'light');
+      }
+    });
+  </script>
+
+</body>
+</html>

@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <title>Tabel Harga Responsif</title>
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      margin: 0;
+      padding: 40px 20px;
+      background: #f5f5f5;
+      display: flex;
+      justify-content: center;
+    }
+    .pricing-table {
+      display: flex;
+      flex-wrap: wrap;
+      max-width: 900px;
+      gap: 20px;
+      width: 100%;
+      justify-content: center;
+    }
+    .price-card {
+      background: white;
+      border-radius: 10px;
+      box-shadow: 0 5px 15px rgb(0 0 0 / 0.1);
+      flex: 1 1 250px;
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      transition: transform 0.3s, box-shadow 0.3s;
+      cursor: pointer;
+    }
+    .price-card:hover {
+      transform: translateY(-10px);
+      box-shadow: 0 15px 25px rgb(0 0 0 / 0.2);
+    }
+    .price-header {
+      font-size: 1.5em;
+      font-weight: bold;
+      margin-bottom: 10px;
+      color: #333;
+    }
+    .price-amount {
+      font-size: 2.5em;
+      color: #4caf50;
+      margin-bottom: 10px;
+    }
+    .price-duration {
+      font-size: 0.9em;
+      color: #777;
+      margin-bottom: 20px;
+    }
+    .price-features {
+      flex-grow: 1;
+      list-style: none;
+      padding-left: 0;
+      margin-bottom: 20px;
+      color: #555;
+    }
+    .price-features li {
+      margin-bottom: 8px;
+      position: relative;
+      padding-left: 20px;
+    }
+    .price-features li::before {
+      content: "✓";
+      position: absolute;
+      left: 0;
+      color: #4caf50;
+      font-weight: bold;
+    }
+    .buy-btn {
+      background-color: #4caf50;
+      color: white;
+      border: none;
+      padding: 12px 0;
+      border-radius: 6px;
+      font-size: 1em;
+      font-weight: bold;
+      transition: background-color 0.3s;
+      cursor: pointer;
+    }
+    .buy-btn:hover {
+      background-color: #388e3c;
+    }
+
+    /* Responsif untuk layar kecil */
+    @media (max-width: 700px) {
+      .pricing-table {
+        flex-direction: column;
+        max-width: 400px;
+      }
+      .price-card {
+        flex: none;
+        width: 100%;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="pricing-table">
+    <div class="price-card" data-package="Basic">
+      <div class="price-header">Basic</div>
+      <div class="price-amount">Rp 50.000</div>
+      <div class="price-duration">per bulan</div>
+      <ul class="price-features">
+        <li>Akses dasar</li>
+        <li>5 Proyek</li>
+        <li>10GB Penyimpanan</li>
+      </ul>
+      <button class="buy-btn">Beli Paket</button>
+    </div>
+    
+    <div class="price-card" data-package="Standard">
+      <div class="price-header">Standard</div>
+      <div class="price-amount">Rp 100.000</div>
+      <div class="price-duration">per bulan</div>
+      <ul class="price-features">
+        <li>Semua fitur Basic</li>
+        <li>20 Proyek</li>
+        <li>100GB Penyimpanan</li>
+        <li>Support 24/7</li>
+      </ul>
+      <button class="buy-btn">Beli Paket</button>
+    </div>
+
+    <div class="price-card" data-package="Premium">
+      <div class="price-header">Premium</div>
+      <div class="price-amount">Rp 200.000</div>
+      <div class="price-duration">per bulan</div>
+      <ul class="price-features">
+        <li>Semua fitur Standard</li>
+        <li>Proyek tak terbatas</li>
+        <li>Penyimpanan tak terbatas</li>
+        <li>Manajer akun pribadi</li>
+      </ul>
+      <button class="buy-btn">Beli Paket</button>
+    </div>
+  </div>
+
+  <script>
+    // Contoh aksi tombol beli
+    document.querySelectorAll('.buy-btn').forEach(button => {
+      button.addEventListener('click', () => {
+        const packageName = button.closest('.price-card').getAttribute('data-package');
+        alert(`Kamu memilih paket ${packageName}. Terima kasih!`);
+      });
+    });
+  </script>
+
+</body>
+</html>

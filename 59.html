@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Color Picker Tool</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f0f0f0;
+      text-align: center;
+      padding: 50px;
+    }
+
+    .picker-container {
+      background-color: white;
+      display: inline-block;
+      padding: 30px;
+      border-radius: 10px;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    }
+
+    .color-box {
+      width: 150px;
+      height: 150px;
+      margin: 20px auto;
+      border-radius: 10px;
+      border: 1px solid #ccc;
+    }
+
+    #colorCode {
+      font-size: 18px;
+      font-weight: bold;
+      margin-top: 10px;
+    }
+
+    input[type="color"] {
+      margin-top: 20px;
+      width: 100px;
+      height: 50px;
+      border: none;
+      cursor: pointer;
+      background: none;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="picker-container">
+    <h2>🎨 Color Picker Tool</h2>
+    <div class="color-box" id="colorPreview"></div>
+    <div id="colorCode">#ffffff</div>
+    <input type="color" id="colorInput" value="#ffffff" onchange="updateColor()">
+  </div>
+
+  <script>
+    function updateColor() {
+      const color = document.getElementById("colorInput").value;
+      document.getElementById("colorPreview").style.backgroundColor = color;
+      document.getElementById("colorCode").textContent = color;
+    }
+
+    // Inisialisasi warna default
+    window.onload = updateColor;
+  </script>
+
+</body>
+</html>

@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <title>Kuis Penilaian</title>
+  <style>
+    body { font-family: Arial, sans-serif; padding: 20px; }
+    .question { margin-bottom: 15px; }
+    button { margin-top: 10px; }
+    .result { font-weight: bold; margin-top: 20px; }
+  </style>
+</head>
+<body>
+
+  <h2>Kuis Sederhana</h2>
+
+  <form id="quizForm">
+    <div class="question">
+      <p>1. Ibukota Indonesia adalah?</p>
+      <input type="radio" name="q1" value="a"> Surabaya<br>
+      <input type="radio" name="q1" value="b"> Jakarta<br>
+      <input type="radio" name="q1" value="c"> Bandung
+    </div>
+
+    <div class="question">
+      <p>2. 2 + 3 = ?</p>
+      <input type="radio" name="q2" value="a"> 4<br>
+      <input type="radio" name="q2" value="b"> 5<br>
+      <input type="radio" name="q2" value="c"> 6
+    </div>
+
+    <div class="question">
+      <p>3. Warna bendera Indonesia adalah?</p>
+      <input type="radio" name="q3" value="a"> Merah Putih<br>
+      <input type="radio" name="q3" value="b"> Biru Putih<br>
+      <input type="radio" name="q3" value="c"> Merah Kuning
+    </div>
+
+    <button type="button" onclick="checkAnswers()">Kirim Jawaban</button>
+  </form>
+
+  <div class="result" id="result"></div>
+
+  <script>
+    function checkAnswers() {
+      const answers = {
+        q1: "b",
+        q2: "b",
+        q3: "a"
+      };
+
+      let score = 0;
+      let totalQuestions = Object.keys(answers).length;
+
+      for (let key in answers) {
+        let selected = document.querySelector(`input[name="${key}"]:checked`);
+        if (selected && selected.value === answers[key]) {
+          score++;
+        }
+      }
+
+      const resultText = `Skor Anda: ${score} dari ${totalQuestions} (${(score / totalQuestions * 100).toFixed(0)}%)`;
+      document.getElementById('result').innerText = resultText;
+    }
+  </script>
+
+</body>
+</html>

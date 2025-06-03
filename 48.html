@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <title>Aplikasi Resep Masakan Lengkap</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            padding: 20px;
+            max-width: 700px;
+            margin: auto;
+            background-color: #f9f9f9;
+            color: #333;
+        }
+        h2 {
+            text-align: center;
+            color: #4CAF50;
+        }
+        select, button {
+            padding: 10px;
+            margin: 10px 0;
+            width: 100%;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 16px;
+            transition: border-color 0.3s;
+        }
+        select:focus, button:focus {
+            border-color: #4CAF50;
+            outline: none;
+        }
+        #resepDetail {
+            margin-top: 20px;
+            border-top: 2px solid #4CAF50;
+            padding-top: 15px;
+            background-color: #fff;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+        h3 {
+            color: #4CAF50;
+        }
+        h4 {
+            margin-top: 10px;
+            color: #555;
+        }
+        ul, ol {
+            padding-left: 20px;
+        }
+        li {
+            margin: 5px 0;
+        }
+    </style>
+</head>
+<body>
+
+    <h2>📖 Pilih Resep Masakan</h2>
+
+    <select id="resepSelect" onchange="tampilkanResep()">
+        <option value="">-- Pilih Resep --</option>
+        <option value="nasiGoreng">Nasi Goreng</option>
+        <option value="mieGoreng">Mie Goreng</option>
+        <option value="ayamBakar">Ayam Bakar</option>
+        <option value="sateAyam">Sate Ayam</option>
+        <option value="sotoAyam">Soto Ayam</option>
+        <option value="rendang">Rendang</option>
+        <option value="capcay">Capcay</option>
+        <option value="sambalTerasi">Sambal Terasi</option>
+    </select>
+
+    <div id="resepDetail"></div>
+
+    <script>
+        const resepMasakan = {
+            nasiGoreng: {
+                nama: "Nasi Goreng",
+                bahan: [
+                    "2 piring nasi putih",
+                    "2 siung bawang putih, cincang",
+                    "1 butir telur",
+                    "2 sdm kecap manis",
+                    "Garam & merica secukupnya",
+                    "Minyak goreng"
+                ],
+                langkah: [
+                    "Panaskan minyak, tumis bawang putih hingga harum.",
+                    "Masukkan telur, orak-arik.",
+                    "Masukkan nasi, aduk rata.",
+                    "Tambahkan kecap manis, garam, merica.",
+                    "Masak hingga bumbu meresap, sajikan hangat."
+                ]
+            },
+            mieGoreng: {
+                nama: "Mie Goreng",
+                bahan: [
+                    "1 bungkus mie instan",
+                    "1 butir telur",
+                    "Sayuran (kol, wortel)",
+                    "Bumbu mie instan",
+                    "Minyak goreng"
+                ],
+                langkah: [
+                    "Rebus mie hingga matang, tiriskan.",
+                    "Tumis sayur dan telur hingga matang.",
+                    "Masukkan mie dan bumbu, aduk rata.",
+                    "Masak 2-3 menit, sajikan."
+                ]
+            },
+            ayamBakar: {
+                nama: "Ayam Bakar",
+                bahan: [
+                    "4 potong ayam",
+                    "2 siung bawang putih",
+                    "3 siung bawang merah",
+                    "2 sdm kecap manis",
+                    "1 sdm air jeruk nipis",
+                    "Garam, gula, merica"
+                ],
+                langkah: [
+                    "Haluskan bumbu, lumuri ayam, diamkan 30 menit.",
+                    "Bakar ayam sambil dioles bumbu hingga matang.",
+                    "Sajikan dengan sambal dan nasi hangat."
+                ]
+            },
+            sateAyam: {
+                nama: "Sate Ayam",
+                bahan: [
+                    "500 gram daging ayam, potong dadu",
+                    "Tusuk sate",
+                    "3 siung bawang putih",
+                    "5 butir kemiri",
+                    "Kecap manis, garam, merica"
+                ],
+                langkah: [
+                    "Haluskan bumbu, campur dengan ayam, marinasi 1 jam.",
+                    "Tusuk ayam ke tusuk sate.",
+                    "Bakar sambil dioles kecap hingga matang.",
+                    "Sajikan dengan sambal kacang dan lontong."
+                ]
+            },
+            sotoAyam: {
+                nama: "Soto Ayam",
+                bahan: [
+                    "500 gram ayam",
+                    "2 batang serai",
+                    "2 lembar daun salam",
+                    "Kunyit, jahe, bawang putih, bawang merah (dihaluskan)",
+                    "Tauge, telur rebus, soun, daun bawang"
+                ],
+                langkah: [
+                    "Rebus ayam hingga matang, suwir-suwir.",
+                    "Tumis bumbu halus hingga harum.",
+                    "Masukkan bumbu ke air kaldu, tambahkan ayam suwir.",
+                    "Sajikan dengan pelengkap."
+                ]
+            },
+            rendang: {
+                nama: "Rendang",
+                bahan: [
+                    "1 kg daging sapi",
+                    "500 ml santan kental",
+                    "Bumbu rendang (cabai, bawang, jahe, lengkuas, kunyit, serai)",
+                    "Daun jeruk, daun kunyit, garam"
+                ],
+                langkah: [
+                    "Tumis bumbu hingga matang dan berminyak.",
+                    "Masukkan daging dan santan.",
+                    "Masak dengan api kecil hingga kuah menyusut dan mengental.",
+                    "Aduk terus hingga rendang kering dan matang sempurna."
+                ]
+            },
+            capcay: {
+                nama: "Capcay",
+                bahan: [
+                    "Wortel, brokoli, kembang kol, sawi",
+                    "2 siung bawang putih",
+                    "1 sdm saus tiram",
+                    "1 sdt maizena (larutkan)",
+                    "Air, garam, merica"
+                ],
+                langkah: [
+                    "Tumis bawang putih hingga harum.",
+                    "Masukkan sayur secara bertahap.",
+                    "Tambahkan air dan bumbu, masak hingga sayur matang.",
+                    "Tambahkan larutan maizena untuk mengentalkan."
+                ]
+            },
+            sambalTerasi: {
+                nama: "Sambal Terasi",
+                bahan: [
+                    "10 cabai rawit",
+                    "3 cabai merah besar",
+                    "1 tomat",
+                    "1 sdt terasi bakar",
+                    "Garam, gula secukupnya"
+                ],
+                langkah: [
+                    "Goreng cabai dan tomat sebentar.",
+                    "Ulek semua bahan hingga halus.",
+                    "Tumis sebentar jika suka sambal matang.",
+                    "Sajikan sebagai pelengkap lauk."
+                ]
+            }
+        };
+
+        function tampilkanResep() {
+            const pilihan = document.getElementById("resepSelect").value;
+            const detail = document.getElementById("resepDetail");
+
+            if (!pilihan) {
+                detail.innerHTML = "";
+                return;
+            }
+
+            const resep = resepMasakan[pilihan];
+            const bahanList = resep.bahan.map(b => `<li>${b}</li>`).join("");
+            const langkahList = resep.langkah.map((l, i) => `<li>Langkah ${i + 1}: ${l}</li>`).join("");
+
+            detail.innerHTML = `
+                <h3>${resep.nama}</h3>
+                <h4>Bahan-bahan:</h4>
+                <ul>${bahanList}</ul>
+                <h4>Langkah-langkah:</h4>
+                <ol>${langkahList}</ol>
+            `;
+        }
+    </script>
+
+</body>
+</html>

@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title></title>
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background: linear-gradient(to right, #ffdde1, #ee9ca7);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+      overflow: hidden;
+      transition: background 0.5s ease;
+    }
+
+    .container {
+      background-color: white;
+      padding: 30px;
+      border-radius: 15px;
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+      text-align: center;
+      width: 90%;
+      max-width: 400px;
+      transition: background-color 0.5s ease, color 0.5s ease;
+      color: #d63384;
+    }
+
+    h1 {
+      color: inherit;
+      transition: color 0.5s ease;
+    }
+
+    .confession {
+      font-size: 1.2em;
+      margin: 20px 0;
+      color: inherit;
+      transition: color 0.5s ease;
+    }
+
+    button {
+      padding: 10px 20px;
+      font-size: 16px;
+      background-color: #d63384;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background 0.3s ease;
+      margin: 5px;
+    }
+
+    button:hover {
+      background-color: #a61e4d;
+    }
+
+    #response {
+      margin-top: 20px;
+      font-size: 1.2em;
+      color: green;
+      transition: color 0.5s ease;
+    }
+
+    .heart {
+      position: absolute;
+      font-size: 20px;
+      animation: floatHearts 2s linear infinite;
+      color: #ff5e78;
+      pointer-events: none;
+    }
+
+    @keyframes floatHearts {
+      0% {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+      }
+      100% {
+        opacity: 0;
+        transform: translateY(-200px) scale(1.5);
+      }
+    }
+
+    /* Styles for rejected state */
+    .rejected-bg {
+      background: linear-gradient(to right, #cbd5e1, #94a3b8);
+    }
+
+    .rejected-container {
+      background-color: #f1f5f9;
+      color: #64748b;
+      box-shadow: 0 5px 15px rgba(100, 116, 139, 0.4);
+    }
+
+    .rejected-response {
+      color: #2563eb;
+    }
+  </style>
+</head>
+<body>
+  <div class="container" id="container">
+    <h1>Hai Kamu!</h1>
+    <p>Aku udah lama mau bilang sesuatu...</p>
+    <p class="confession">aku suka sama kamu,jadi?</p>
+
+    <button onclick="confessLove(true)" id="confessBtn">Iya, aku juga suka kamu </button>
+    <button onclick="confessLove(false)">Maaf, kita temenan aja ya </button>
+    <p id="response"></p>
+
+    <div id="heartsContainer"></div>
+  </div>
+
+  <script>
+    function confessLove(isAccepted) {
+      const response = document.getElementById('response');
+      const container = document.getElementById('container');
+      const body = document.body;
+
+      if (isAccepted) {
+        // Reset styles if previously rejected
+        container.classList.remove('rejected-container');
+        body.classList.remove('rejected-bg');
+        response.classList.remove('rejected-response');
+
+        response.style.color = 'green';
+        response.textContent = 'Awww! 💘';
+        // Buat animasi hati
+        for (let i = 0; i < 20; i++) {
+          createHeart();
+        }
+      } else {
+        // Ganti warna tampilan ke state rejected
+        container.classList.add('rejected-container');
+        body.classList.add('rejected-bg');
+        response.classList.add('rejected-response');
+
+        response.textContent = 'oalah😔';
+        // Buat sedikit animasi hati
+        for (let i = 0; i < 5; i++) {
+          createHeart();
+        }
+      }
+    }
+
+    function createHeart() {
+      const heart = document.createElement('div');
+      heart.classList.add('heart');
+      heart.textContent = '💖';
+      heart.style.left = Math.random() * 100 + 'vw';
+      heart.style.top = '100vh';
+      document.body.appendChild(heart);
+
+      setTimeout(() => {
+        heart.remove();
+      }, 2000);
+    }
+  </script>
+</body>
+</html>

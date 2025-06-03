@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Animasi Hamburger</title>
+  <style>
+    body {
+      margin: 50px;
+      background: #f2f2f2;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .hamburger {
+      width: 35px;
+      height: 30px;
+      position: relative;
+      cursor: pointer;
+      transition: transform 0.4s ease;
+    }
+
+    .bar {
+      position: absolute;
+      width: 100%;
+      height: 4px;
+      background-color: #333;
+      border-radius: 2px;
+      transition: all 0.4s ease;
+    }
+
+    .bar:nth-child(1) {
+      top: 0;
+    }
+
+    .bar:nth-child(2) {
+      top: 13px;
+    }
+
+    .bar:nth-child(3) {
+      bottom: 0;
+    }
+
+    /* Animasi saat aktif */
+    .hamburger.active .bar:nth-child(1) {
+      transform: rotate(45deg);
+      top: 13px;
+    }
+
+    .hamburger.active .bar:nth-child(2) {
+      opacity: 0;
+    }
+
+    .hamburger.active .bar:nth-child(3) {
+      transform: rotate(-45deg);
+      bottom: 13px;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="hamburger" onclick="toggleHamburger(this)">
+    <div class="bar"></div>
+    <div class="bar"></div>
+    <div class="bar"></div>
+  </div>
+
+  <script>
+    function toggleHamburger(element) {
+      element.classList.toggle('active');
+    }
+  </script>
+
+</body>
+</html>

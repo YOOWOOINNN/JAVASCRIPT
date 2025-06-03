@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Baseball Score Counter</title>
+<style>
+  body {
+    font-family: Arial, sans-serif;
+    background: #fafafa;
+    display: flex;
+    justify-content: center;
+    padding: 30px;
+  }
+  .container {
+    background: white;
+    border-radius: 10px;
+    padding: 20px 30px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    width: 320px;
+    text-align: center;
+  }
+  h1 {
+    margin-bottom: 10px;
+    color: #333;
+  }
+  .scoreboard {
+    display: flex;
+    justify-content: space-around;
+    margin: 20px 0;
+    font-size: 48px;
+    font-weight: bold;
+  }
+  .team {
+    flex: 1;
+  }
+  .team-name {
+    font-size: 20px;
+    margin-bottom: 10px;
+  }
+  button {
+    padding: 10px 15px;
+    font-size: 16px;
+    margin: 5px;
+    border-radius: 6px;
+    border: none;
+    cursor: pointer;
+    background: #007bff;
+    color: white;
+    transition: background-color 0.3s;
+  }
+  button:hover {
+    background: #0056b3;
+  }
+  .inning-display {
+    font-size: 22px;
+    margin-bottom: 15px;
+  }
+  .controls {
+    margin-top: 20px;
+  }
+</style>
+</head>
+<body>
+
+<div class="container">
+  <h1>⚾ Baseball Score Counter</h1>
+
+  <div class="inning-display" id="inningDisplay">Inning: 1</div>
+
+  <div class="scoreboard">
+    <div class="team">
+      <div class="team-name">Home</div>
+      <div id="homeScore">0</div>
+      <button onclick="addScore('home')">Tambah Skor Home</button>
+    </div>
+    <div class="team">
+      <div class="team-name">Away</div>
+      <div id="awayScore">0</div>
+      <button onclick="addScore('away')">Tambah Skor Away</button>
+    </div>
+  </div>
+
+  <div class="controls">
+    <button onclick="nextInning()">Next Inning</button>
+    <button onclick="resetGame()" style="background:#dc3545;">Reset Game</button>
+  </div>
+</div>
+
+<script>
+  let homeScore = 0;
+  let awayScore = 0;
+  let inning = 1;
+
+  const homeScoreEl = document.getElementById('homeScore');
+  const awayScoreEl = document.getElementById('awayScore');
+  const inningDisplay = document.getElementById('inningDisplay');
+
+  function updateDisplay() {
+    homeScoreEl.textContent = homeScore;
+    awayScoreEl.textContent = awayScore;
+    inningDisplay.textContent = 'Inning: ' + inning;
+  }
+
+  function addScore(team) {
+    if (team === 'home') {
+      homeScore++;
+    } else if (team === 'away') {
+      awayScore++;
+    }
+    updateDisplay();
+  }
+
+  function nextInning() {
+    inning++;
+    updateDisplay();
+  }
+
+  function resetGame() {
+    if(confirm('Apakah Anda yakin ingin mereset skor dan inning?')) {
+      homeScore = 0;
+      awayScore = 0;
+      inning = 1;
+      updateDisplay();
+    }
+  }
+
+  updateDisplay();
+</script>
+
+</body>
+</html>

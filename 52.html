@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <title>Pencarian Hobi</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            padding: 30px;
+            max-width: 600px;
+            margin: auto;
+            background-color: #f4f4f4;
+            color: #333;
+        }
+        h2 {
+            text-align: center;
+            color: #007BFF;
+        }
+        input {
+            width: 100%;
+            padding: 10px;
+            font-size: 16px;
+            margin-bottom: 15px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            transition: border-color 0.3s;
+        }
+        input:focus {
+            border-color: #007BFF;
+            outline: none;
+        }
+        ul {
+            list-style: none;
+            padding-left: 0;
+        }
+        li {
+            padding: 10px;
+            margin-bottom: 5px;
+            background-color: #fff;
+            border-left: 4px solid #007BFF;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            transition: background-color 0.3s;
+        }
+        li:hover {
+            background-color: #e9f5ff;
+        }
+        .not-found {
+            padding: 10px;
+            background-color: #ffdddd;
+            border-left: 4px solid #ff0000;
+            border-radius: 5px;
+        }
+    </style>
+</head>
+<body>
+
+    <h2>🔍 Cari Kegiatan Hobi</h2>
+    <input type="text" id="searchInput" placeholder="Ketik nama hobi..." oninput="cariHobi()">
+
+    <ul id="hasilHobi"></ul>
+
+    <script>
+        const daftarHobi = [
+            "Membaca buku",
+            "Menulis jurnal",
+            "Melukis",
+            "Fotografi",
+            "Bermain gitar",
+            "Memancing",
+            "Berkebun",
+            "Memasak",
+            "Berolahraga",
+            "Bersepeda",
+            "Coding / Pemrograman",
+            "Mendaki gunung",
+            "Menonton film",
+            "Mengoleksi perangko",
+            "Merajut atau menjahit"
+        ];
+
+        function cariHobi() {
+            const input = document.getElementById("searchInput").value.toLowerCase();
+            const hasil = document.getElementById("hasilHobi");
+
+            hasil.innerHTML = "";
+
+            const hasilFilter = daftarHobi.filter(hobi =>
+                hobi.toLowerCase().includes(input)
+            );
+
+            if (hasilFilter.length === 0) {
+                hasil.innerHTML = "<li class='not-found'>Tidak ditemukan.</li>";
+                return;
+            }
+
+            hasilFilter.forEach(hobi => {
+                const li = document.createElement("li");
+                li.textContent = hobi;
+                hasil.appendChild(li);
+            });
+        }
+
+        // Tampilkan semua saat awal
+        cariHobi();
+    </script>
+
+</body>
+</html>

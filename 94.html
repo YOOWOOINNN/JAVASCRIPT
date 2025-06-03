@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <title>Pemeriksa Palindrome</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f1f1f1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      margin: 0;
+    }
+    .container {
+      background: white;
+      padding: 30px 40px;
+      border-radius: 10px;
+      box-shadow: 0 6px 15px rgba(0,0,0,0.1);
+      text-align: center;
+      max-width: 400px;
+      width: 100%;
+    }
+    h1 {
+      margin-bottom: 20px;
+    }
+    input[type="text"] {
+      width: 100%;
+      padding: 12px 15px;
+      font-size: 16px;
+      border: 2px solid #ddd;
+      border-radius: 8px;
+      margin-bottom: 20px;
+    }
+    button {
+      padding: 12px 24px;
+      font-size: 16px;
+      background-color: #4caf50;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background-color 0.3s;
+    }
+    button:hover {
+      background-color: #388e3c;
+    }
+    #result {
+      margin-top: 20px;
+      font-size: 18px;
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <h1>Pemeriksa Palindrome</h1>
+    <input type="text" id="textInput" placeholder="Masukkan kata atau kalimat..." />
+    <button onclick="checkPalindrome()">Periksa</button>
+    <div id="result"></div>
+  </div>
+
+  <script>
+    function checkPalindrome() {
+      const input = document.getElementById('textInput').value;
+      const cleaned = input.toLowerCase().replace(/[^a-z0-9]/g, '');
+      const reversed = cleaned.split('').reverse().join('');
+
+      const result = document.getElementById('result');
+      if (cleaned && cleaned === reversed) {
+        result.textContent = `"${input}" adalah palindrome ✅`;
+        result.style.color = 'green';
+      } else if (cleaned) {
+        result.textContent = `"${input}" bukan palindrome ❌`;
+        result.style.color = 'red';
+      } else {
+        result.textContent = 'Masukkan teks terlebih dahulu!';
+        result.style.color = 'orange';
+      }
+    }
+  </script>
+
+</body>
+</html>
